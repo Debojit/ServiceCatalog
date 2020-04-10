@@ -24,8 +24,8 @@ define(['accUtils'],
        * after being disconnected.
        */
       self.connected = function() {
-        accUtils.announce('Customers page loaded.');
-        document.title = "Customers";
+        accUtils.announce('Services page loaded.');
+        document.title = 'Services';
         // Implement further logic if needed
       };
 
