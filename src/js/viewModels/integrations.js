@@ -7,13 +7,30 @@
 /*
  * Your incidents ViewModel code goes here
  */
-define(['accUtils'],
- function(accUtils) {
+define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
+function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
 
     function IncidentsViewModel() {
       var self = this;
-      // Below are a set of the ViewModel methods invoked by the oj-module component.
-      // Please reference the oj-module jsDoc for additional information.
+      
+      self.integrationsArray = ko.observableArray();
+
+      $.ajax({
+        type: 'GET',
+        url: 'https://localhost:7102/enterprise-service-catalogue/resources/integrations',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+        },
+        dataType: 'json',
+        success: function(response) {
+          self.integrationsArray.removeAll();
+          self.integrationsArray(response);
+          console.log(response);
+        },
+        failure: function(response) {
+          alert(JSON.stringify(response));
+        }
+    });
 
       /**
        * Optional ViewModel method invoked after the View is inserted into the
@@ -24,7 +41,6 @@ define(['accUtils'],
        * after being disconnected.
        */
       self.connected = function() {
-        accUtils.announce('Integrations page loaded.');
         document.title = 'Integrations';
         // Implement further logic if needed
       };
