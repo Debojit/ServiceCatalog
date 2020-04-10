@@ -14,7 +14,7 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
             //Create table data sources
             self.integrationsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Integrations), { idAttribute: 'INTERFACE_ID' });
             self.touchpointsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.ServiceTouchpoints), { idAttribute: 'TOUCHPOINT_ID' });
-            self.errorCodesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'});
+            self.errorCodesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'}));
             
             //Navigate back to services list view
             self.backToServicesList = function (event) {

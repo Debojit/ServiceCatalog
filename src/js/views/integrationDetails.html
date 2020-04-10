@@ -181,11 +181,15 @@
         <oj-collapsible id='serviceDetailsCollapsible' expanded='false'>
           <h2 slot='header'>Services</h2>
           <div>
-            <oj-table id='servicesTable' aria-label='Service List' data='[[servicesDataSource]]' columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
+            <oj-table id='servicesTable'
+                      aria-label='Service List'
+                      data='[[servicesDataSource]]'
+                      columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
                           {"headerText": "Service Name", "field": "SERVICE_NAME"},
                           {"headerText": "Service Version", "field": "SERVICE_VERSION"},
                           {"headerText": "Project", "field": "MODULE"},
-                          {"headerText": "Platform", "field": "PLATFORM"}]' style='width:100%'>
+                          {"headerText": "Platform", "field": "PLATFORM"}]'
+                      style='width:100%'>
             </oj-table>
           </div>
         </oj-collapsible>

@@ -126,7 +126,7 @@
                 <oj-collapsible id='integrationDetailsCollapsible' expanded='[[serviceData.Integrations.length > 0]]'>
                     <h2 slot='header'>Integrations</h2>
                     <div>
-                        <oj-table id='servicesTable'
+                        <oj-table id='integrationsTable'
                                 aria-label='Integrations List'
                                 data='[[integrationsDataSource]]'
                                 columns='[{"headerText": "Interface ID", "field": "INTERFACE_ID"},
@@ -140,7 +140,25 @@
                     </div>
                 </oj-collapsible>
             </div>
-            <hr />
+            <br />
+
+            <div id='touchpointsTable'>
+                <oj-collapsible id='touchpointDetailsCollapsible' expanded='[[serviceData.ServiceTouchpoints.length > 0]]'>
+                    <h2 slot='header'>Touchpoints</h2>
+                    <div>
+                        <oj-table id='touchpointsTable'
+                                    aria-label='Service Touchpoints'
+                                    data=[[touchpointsDataSource]]
+                                    columns='[{"headerText": "Touchpoint ID", "field": "TOUCHPOINT_ID"},
+                                                {"headerText": "Endpoint ID", "field": "ENDPOINT_NAME"},
+                                                {"headerText": "Endpoint Type", "field": "ENDPOINT_TYPE"},
+                                                {"headerText": "System", "field": "SYSTEM"}]'
+                                    style='width:100%'>
+
+                        </oj-table>
+                    </div>
+                </oj-collapsible>
+            </div>
         </div>
     </div>
 </div>
