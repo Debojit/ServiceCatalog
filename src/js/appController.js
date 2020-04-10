@@ -64,6 +64,11 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       // User Info used in Global Navigation area
       self.userLogin = ko.observable("john.hancock@oracle.com");
 
+      //Global variables
+      self.selectedIntegration = ko.observable();
+      self.selectedService = ko.observable();
+      //END global variables
+
       // Footer
       function footerLink(name, id, linkTarget) {
         this.name = name;

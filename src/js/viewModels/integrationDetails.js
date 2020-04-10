@@ -4,16 +4,18 @@
  * The Universal Permissive License (UPL), Version 1.0
  * @ignore
  */
-/*
- * Your customer ViewModel code goes here
- */
-define(['accUtils'],
- function(accUtils) {
+define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
+function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
 
-    function CustomerViewModel() {
+    function IntegrationDetailsViewModel() {
       var self = this;
-      // Below are a set of the ViewModel methods invoked by the oj-module component.
-      // Please reference the oj-module jsDoc for additional information.
+      
+      self.backToIntegrationListView = function(event) {
+        setTimeout(function() {
+          self.router = oj.Router.rootInstance;
+          self.router.go('integrations');
+        });
+      }
 
       /**
        * Optional ViewModel method invoked after the View is inserted into the
@@ -24,7 +26,6 @@ define(['accUtils'],
        * after being disconnected.
        */
       self.connected = function() {
-        accUtils.announce('Integration Details page loaded.');
         document.title = 'Integration Details';
         // Implement further logic if needed
       };
@@ -50,6 +51,6 @@ define(['accUtils'],
      * return a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.
      */
-    return CustomerViewModel;
+    return IntegrationDetailsViewModel;
   }
 );

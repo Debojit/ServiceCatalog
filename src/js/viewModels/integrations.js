@@ -4,16 +4,12 @@
  * The Universal Permissive License (UPL), Version 1.0
  * @ignore
  */
-/*
- * Your incidents ViewModel code goes here
- */
-define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
-function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
+define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
+function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
 
-    function IncidentsViewModel() {
+    function IntegrationsViewModel() {
       var self = this;
       
-      self.selectedIntegration = ko.observable();
       self.integrationList = ko.observableArray();
       self.serviceList = ko.observableArray();
       self.servicesDialogDataSource = ko.observable();
@@ -45,7 +41,7 @@ function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutT
       if(interfaceId != undefined) {
         $.each(self.integrationList(), function(id, integration) {
           if(integration.INTERFACE_ID == interfaceId) {
-            self.selectedIntegration(integration.URL);
+            app.selectedIntegration(integration);
             self.serviceList(integration.Services);
           }
         });
@@ -104,6 +100,6 @@ function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutT
      * return a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.
      */
-    return IncidentsViewModel;
+    return IntegrationsViewModel;
   }
 );

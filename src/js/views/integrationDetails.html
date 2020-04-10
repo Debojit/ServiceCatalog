@@ -2,9 +2,16 @@
  Copyright (c) 2014, 2020, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
- <div class="oj-hybrid-padding">
-    <h1>Integration Details Content Area</h1>
-    <div>
-        To change the content of this section, you will make edits to the integrationDetails.html file located in the /js/views folder.
+ <div class='oj-hybrid-padding'>
+    <h1>Integration Details</h1>
+    
+    <div id='actionBtns' class='oj-flex-item oj-form-layout oj-sm-12'>
+      <oj-button id='backBtn' class='rtDiv' chroming='full' on-oj-action='[[backToIntegrationListView]]'>
+        <span slot='startIcon' class="fa fa-arrow-left  fa-x"/>
+        Back
+      </oj-button>
+    </div>
+    <div id='integrationDetails'>
+      
     </div>
   </div>

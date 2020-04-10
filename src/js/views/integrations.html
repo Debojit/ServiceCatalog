@@ -2,14 +2,14 @@
  Copyright (c) 2014, 2020, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
-<div class="oj-hybrid-padding">
+<div class='oj-hybrid-padding'>
   <div id='pagedIntegrationsDiv'>
     <h2>Integration Details</h2>
     <oj-table id='integrationsTable'
               aria-label='Integrations Table'
-              data='{{integrationsDataSource}}'
+              data='[[integrationsDataSource]]'
               selection-mode='{"row": "single"}'
-              on-selected-changed='{{integrationsTblSelctionListener}}'
+              on-selected-changed='[[integrationsTblSelctionListener]]'
               columns='[{"headerText": "Serial No.", "field": "SNO", "sortable": "enabled"},
                         {"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell", "sortable": "enabled"},
                         {"headerText": "Interface Name", "field": "INTERFACE_NAME", "template": "integrationTooltipCell", "sortable": "enabled"},
@@ -34,7 +34,7 @@
       <div slot='body'>
         <oj-table id='servicesTable'
                 aria-label='Service List'
-                data='{{servicesDialogDataSource}}'
+                data='[[servicesDialogDataSource]]'
                 columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
                           {"headerText": "Service Name", "field": "SERVICE_NAME"},
                           {"headerText": "Service Version", "field": "SERVICE_VERSION"},
