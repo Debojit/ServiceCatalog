@@ -13,8 +13,11 @@ function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutT
     function IncidentsViewModel() {
       var self = this;
       
-      self.integrationsArray = ko.observableArray();
-
+      self.selectedIntegration = ko.observable();
+      self.integrationList = ko.observableArray();
+      self.serviceList = ko.observableArray();
+      self.servicesDialogDataSource = ko.observable();
+      
       $.ajax({
         type: 'GET',
         url: 'https://localhost:7102/enterprise-service-catalogue/resources/integrations',
@@ -23,16 +26,42 @@ function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutT
         },
         dataType: 'json',
         success: function(response) {
-          self.integrationsArray.removeAll();
-          self.integrationsArray(response);
+          self.integrationList.removeAll();
+          self.integrationList(response);
         },
         failure: function(response) {
           alert(JSON.stringify(response));
         }
     });
 
-    self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationsArray, {idAttribute: 'INTERFACE_ID'}));
+    self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationList, {idAttribute: 'INTERFACE_ID'}));
 
+    self.integrationsTblSelctionListener = function(event) {
+      var interfaceId = null;
+      event.detail.value.row.values().forEach(key => {
+        interfaceId = key;
+      });
+      
+      if(interfaceId != undefined) {
+        $.each(self.integrationList(), function(id, integration) {
+          if(integration.INTERFACE_ID == interfaceId) {
+            self.selectedIntegration(integration.URL);
+            self.serviceList(integration.Services);
+          }
+        });
+      }
+    }
+
+    // Service List Dialog
+    self.openServiceListDialog = function(event) {
+      self.servicesDialogDataSource(new ArrayDataProvider(self.serviceList, {idAttribute: 'SERVICE_ID'}));
+      document.getElementById('serviceListDialog').open();
+    }
+
+    self.closeServiceListDialog = function(event) {
+      document.getElementById('serviceListDialog').close();
+    }
+    //End Service List Dialog
       /**
        * Optional ViewModel method invoked after the View is inserted into the
        * document DOM.  The application can put logic that requires the DOM being

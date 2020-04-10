@@ -9,6 +9,7 @@
               aria-label='Integrations Table'
               data='{{integrationsDataSource}}'
               selection-mode='{"row": "single"}'
+              on-selected-changed='{{integrationsTblSelctionListener}}'
               columns='[{"headerText": "Serial No.", "field": "SNO", "sortable": "enabled"},
                         {"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell", "sortable": "enabled"},
                         {"headerText": "Interface Name", "field": "INTERFACE_NAME", "template": "integrationTooltipCell", "sortable": "enabled"},
@@ -18,7 +19,30 @@
                         {"headerText": "Target System", "field": "TRGT_APP", "sortable": "enabled"},
                         {"headerText": "", "template": "svcDetailsCell", "sortable": "disabled"}]'
               style='width:100%'>
+        <template slot='svcDetailsCell'>
+          <oj-button id='serviceListBtn' on-oj-action='[[openServiceListDialog]]'>Service Details</oj-button>
+        </template>
       <oj-paging-control data='[[integrationsDataSource]]' id='integrationTblPager' page-size='10' slot='bottom'/>
     </oj-table>
+  </div>
+
+  <div id='servicesDiv'>
+    <oj-dialog dialog-title='Service List' id='serviceListDialog' style='display:none;width: 90vw; height: 30vh;'>
+      <div slot='body'>
+        <oj-table id='servicesTable'
+                aria-label='Service List'
+                data='{{servicesDialogDataSource}}'
+                columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
+                          {"headerText": "Service Name", "field": "SERVICE_NAME"},
+                          {"headerText": "Service Version", "field": "SERVICE_VERSION"},
+                          {"headerText": "Project", "field": "MODULE"},
+                          {"headerText": "Platform", "field": "PLATFORM"}]'
+                style='width:100%'>
+        </oj-table>
+      </div>
+      <div slot='footer'>
+        <oj-button id='serviceListDialogCloseBtn'on-oj-action='[[closeServiceListDialog]]'>Close</oj-button>
+      </div>
+    </oj-dialog>
   </div>
 </div>
