@@ -7,8 +7,8 @@
 /*
  * Your application specific code will go here
  */
-define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojmodule-element', 'ojs/ojknockout'],
-  function(ko, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, Router, ArrayDataProvider, KnockoutTemplateUtils) {
+define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojoffcanvas', 'ojs/ojmodule-element', 'ojs/ojknockout'],
+  function(ko, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, Router, ArrayDataProvider, KnockoutTemplateUtils, OffcanvasUtils) {
      function ControllerViewModel() {
         var self = this;
 
@@ -57,6 +57,13 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'}
       ];
       self.navDataProvider = new ArrayDataProvider(navData, {keyAttributes: 'id'});
+      
+      // Called by navigation drawer toggle button and after selection of nav drawer item
+      // self.toggleDrawer = function () {
+      //     return OffcanvasUtils.toggle(self.drawerParams);
+      // }
+      // Add a close listener so we can move focus back to the toggle button when the drawer closes
+      //document.getElementById('navDrawer').addEventListener("ojclose", document.getElementById('drawerToggleButton').focus());
 
       // Header
       // Application Name used in Branding Area

@@ -9,7 +9,10 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
 
     function IntegrationDetailsViewModel() {
       var self = this;
-      
+
+      self.integrationData = app.selectedIntegration(); //Load integrations detail object
+      console.log(self.integrationData);
+      //Navigate back to integrations view
       self.backToIntegrationListView = function(event) {
         setTimeout(function() {
           self.router = oj.Router.rootInstance;
