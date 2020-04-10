@@ -25,12 +25,13 @@ function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutT
         success: function(response) {
           self.integrationsArray.removeAll();
           self.integrationsArray(response);
-          console.log(response);
         },
         failure: function(response) {
           alert(JSON.stringify(response));
         }
     });
+
+    self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationsArray, {idAttribute: 'INTERFACE_ID'}));
 
       /**
        * Optional ViewModel method invoked after the View is inserted into the

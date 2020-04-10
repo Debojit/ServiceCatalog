@@ -3,8 +3,22 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class="oj-hybrid-padding">
-  <h1>Incidents Content Area</h1>
-  <div>
-      To change the content of this section, you will make edits to the incidents.html file located in the /js/views folder.
+  <div id='pagedIntegrationsDiv'>
+    <h2>Integration Details</h2>
+    <oj-table id='integrationsTable'
+              aria-label='Integrations Table'
+              data='{{integrationsDataSource}}'
+              selection-mode='{"row": "single"}'
+              columns='[{"headerText": "Serial No.", "field": "SNO", "sortable": "enabled"},
+                        {"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell", "sortable": "enabled"},
+                        {"headerText": "Interface Name", "field": "INTERFACE_NAME", "template": "integrationTooltipCell", "sortable": "enabled"},
+                        {"headerText": "Source Domain", "field": "SRC_DOMAIN", "sortable": "enabled"},
+                        {"headerText": "Target Domain", "field": "TRGT_DOMAIN", "sortable": "enabled"},
+                        {"headerText": "Source System", "field": "SRC_APP", "sortable": "enabled"},
+                        {"headerText": "Target System", "field": "TRGT_APP", "sortable": "enabled"},
+                        {"headerText": "", "template": "svcDetailsCell", "sortable": "disabled"}]'
+              style='width:100%'>
+      <oj-paging-control data='[[integrationsDataSource]]' id='integrationTblPager' page-size='10' slot='bottom'/>
+    </oj-table>
   </div>
 </div>
