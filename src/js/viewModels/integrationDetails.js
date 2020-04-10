@@ -11,9 +11,11 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       var self = this;
 
       self.integrationData = app.selectedIntegration(); //Load integrations detail object
-      console.log(self.integrationData);
-      //Navigate back to integrations view
-      self.backToIntegrationListView = function(event) {
+      
+      self.servicesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.integrationData.Services), {idAttribute: 'SERVICE_ID'}); //Create data source for services table
+            
+        //Navigate back to integrations view
+      self.backToIntegrationList = function(event) {
         setTimeout(function() {
           self.router = oj.Router.rootInstance;
           self.router.go('integrations');
