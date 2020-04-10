@@ -5,13 +5,24 @@
  <div class='oj-hybrid-padding'>
     <h1>Integration Details</h1>
     
-    <div id='actionBtns' class='oj-flex-item oj-form-layout oj-sm-12'>
-      <oj-button id='backBtn' class='rtDiv' chroming='full' on-oj-action='[[backToIntegrationListView]]'>
-        <span slot='startIcon' class="fa fa-arrow-left  fa-x"/>
-        Back
-      </oj-button>
+    <div>
+      <div class=" oj-padding-horizontal" id="panel1" >
+        
+        <div class="oj-flex-item oj-form-layout oj-sm-12">
+          <div id='actionBtns' class='rtDiv'>
+            <oj-button id='backBtn' on-oj-action='[[backToIntegrationListView]]'>
+              <span slot='startIcon' class='fa fa-arrow-left fa-x'></span>
+              Back
+            </oj-button>
+          </div>
+        </div>
+
+        <div id='integrationDetails'>
+          
+        </div>
+
+      </div>
     </div>
-    <div id='integrationDetails'>
-      
-    </div>
+
+    
   </div>
