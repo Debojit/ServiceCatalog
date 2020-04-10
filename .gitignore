@@ -1,0 +1,32 @@
+##
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+## Oracle JET
+/jet_components
+/node_modules
+/bower_components
+/web
+/staged-themes
+/themes
+/jaftmp@
+
+/hybrid/node_modules
+/hybrid/platforms
+/hybrid/www/*
+
+!hybrid/plugins
+hybrid/plugins/*
+!hybrid/plugins/fetch.json
+## End Oracle JET
+
+##OSFiles
+.DS_Store
+Thumbs.db
