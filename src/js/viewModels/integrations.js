@@ -10,8 +10,8 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
     function IntegrationsViewModel() {
       var self = this;
       
-      self.integrationList = ko.observableArray();
-      self.serviceList = ko.observableArray();
+      self.integrationsList = ko.observableArray();
+      self.servicesList = ko.observableArray();
       self.servicesDialogDataSource = ko.observable();
       
       $.ajax({
@@ -22,16 +22,17 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         },
         dataType: 'json',
         success: function(response) {
-          self.integrationList.removeAll();
-          self.integrationList(response);
+          self.integrationsList.removeAll();
+          self.integrationsList(response);
         },
         failure: function(response) {
           alert(JSON.stringify(response));
         }
     });
 
-    self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationList, {idAttribute: 'INTERFACE_ID'}));
+    self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
 
+    //Table selection listener
     self.integrationsTblSelctionListener = function(event) {
       var interfaceId = null;
       event.detail.value.row.values().forEach(key => {
@@ -39,31 +40,30 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       });
       
       if(interfaceId != undefined) {
-        $.each(self.integrationList(), function(id, integration) {
+        $.each(self.integrationsList(), function(id, integration) {
           if(integration.INTERFACE_ID == interfaceId) {
             app.selectedIntegration(integration);
-            self.serviceList(integration.Services);
+            self.servicesList(integration.Services);
           }
         });
       }
     }
 
     // Service List Dialog
-    self.openServiceListDialog = function(event) {
-      self.servicesDialogDataSource(new ArrayDataProvider(self.serviceList, {idAttribute: 'SERVICE_ID'}));
-      document.getElementById('serviceListDialog').open();
+    self.openServicesListDialog = function(event) {
+      self.servicesDialogDataSource(new ArrayDataProvider(self.servicesList, {idAttribute: 'SERVICE_ID'}));
+      document.getElementById('servicesListDialog').open();
     }
 
-    self.closeServiceListDialog = function(event) {
-      document.getElementById('serviceListDialog').close();
+    self.closeServicesListDialog = function(event) {
+      document.getElementById('servicesListDialog').close();
     }
     //End Service List Dialog
 
     //Open Integratoion Details
     self.openIntegrationDetailsView = function(event) {
       setTimeout(function() {
-        self.router = oj.Router.rootInstance;
-        self.router.go('integrationDetails');
+        self.router = oj.Router.rootInstance.go('integrationDetails');
       });
     }
       /**

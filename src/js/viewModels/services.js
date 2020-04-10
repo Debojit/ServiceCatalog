@@ -4,17 +4,61 @@
  * The Universal Permissive License (UPL), Version 1.0
  * @ignore
  */
-/*
- * Your customer ViewModel code goes here
- */
-define(['accUtils'],
- function(accUtils) {
+define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
+function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
 
-    function CustomerViewModel() {
+    function ServicesViewModel() {
       var self = this;
-      // Below are a set of the ViewModel methods invoked by the oj-module component.
-      // Please reference the oj-module jsDoc for additional information.
+      
+      self.servicesList = ko.observableArray();
+      self.integrationsList = ko.observableArray();
+      self.integrationsDialogDataSource = ko.observable();
+      
+      $.ajax({
+        type: 'GET',
+        url: 'https://localhost:7102/enterprise-service-catalogue/resources/services',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+        },
+        dataType: 'json',
+        success: function(response) {
+          self.servicesList.removeAll();
+          self.servicesList(response);
+        },
+        failure: function(response) {
+          alert(JSON.stringify(response));
+        }
+      });
+      
+      self.servicesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.servicesList, {idAttribute: 'SERVICE_ID'}));
 
+      //Table selection listener
+      self.servicesTblSelctionListener = function(event) {
+        var serviceId = null;
+        event.detail.value.row.values().forEach(key => {
+          serviceId = key;
+        });
+        
+        if(serviceId != undefined) {
+          $.each(self.servicesList(), function(id, service) {
+            if(service.SERVICE_ID == serviceId) {
+              app.selectedService(service);
+              self.integrationsList(service.Integrations);
+            }
+          });
+        }
+      }
+
+      // Service List Dialog 
+    self.openIntegrationsListDialog = function(event) {
+      self.integrationsDialogDataSource(new ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
+      document.getElementById('integrationsListDialog').open();
+    }
+
+    self.closeIntegrationsListDialog = function(event) {
+      document.getElementById('integrationsListDialog').close();
+    }
+    //End Service List Dialog
       /**
        * Optional ViewModel method invoked after the View is inserted into the
        * document DOM.  The application can put logic that requires the DOM being
@@ -24,7 +68,6 @@ define(['accUtils'],
        * after being disconnected.
        */
       self.connected = function() {
-        accUtils.announce('Services page loaded.');
         document.title = 'Services';
         // Implement further logic if needed
       };
@@ -50,6 +93,6 @@ define(['accUtils'],
      * return a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.
      */
-    return CustomerViewModel;
+    return ServicesViewModel;
   }
 );

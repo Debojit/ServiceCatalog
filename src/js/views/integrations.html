@@ -23,14 +23,14 @@
           <a data-bind='click: openIntegrationDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
         </template>
         <template slot='svcDetailsCell'>
-          <oj-button id='serviceListBtn' on-oj-action='[[openServiceListDialog]]'>Service Details</oj-button>
+          <oj-button id='serviceListBtn' on-oj-action='[[openServicesListDialog]]'>Service Details</oj-button>
         </template>
       <oj-paging-control data='[[integrationsDataSource]]' id='integrationTblPager' page-size='10' slot='bottom'/>
     </oj-table>
   </div>
 
-  <div id='servicesDiv'>
-    <oj-dialog dialog-title='Service List' id='serviceListDialog' style='display:none;width: 90vw; height: 30vh;'>
+  <div id='servicesDialogDiv'>
+    <oj-dialog dialog-title='Service List' id='servicesListDialog' style='display:none;width: 90vw; height: 30vh;'>
       <div slot='body'>
         <oj-table id='servicesTable'
                 aria-label='Service List'
@@ -44,7 +44,7 @@
         </oj-table>
       </div>
       <div slot='footer'>
-        <oj-button id='serviceListDialogCloseBtn'on-oj-action='[[closeServiceListDialog]]'>Close</oj-button>
+        <oj-button id='servicesListDialogCloseBtn'on-oj-action='[[closeServicesListDialog]]'>Close</oj-button>
       </div>
     </oj-dialog>
   </div>
