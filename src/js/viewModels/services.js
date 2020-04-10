@@ -49,15 +49,24 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         }
       }
 
-      // Service List Dialog 
-    self.openIntegrationsListDialog = function(event) {
-      self.integrationsDialogDataSource(new ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
-      document.getElementById('integrationsListDialog').open();
-    }
+      // Integrations List Dialog 
+      self.openIntegrationsListDialog = function(event) {
+        self.integrationsDialogDataSource(new ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
+        document.getElementById('integrationsListDialog').open();
+      }
 
-    self.closeIntegrationsListDialog = function(event) {
-      document.getElementById('integrationsListDialog').close();
-    }
+      self.closeIntegrationsListDialog = function(event) {
+        document.getElementById('integrationsListDialog').close();
+      }
+
+      //Open Service Details
+      self.openServiceDetailsView = function(event) {
+        setTimeout(function() {
+          self.router = oj.Router.rootInstance.go('serviceDetails');
+        });
+      }
+
+
     //End Service List Dialog
       /**
        * Optional ViewModel method invoked after the View is inserted into the

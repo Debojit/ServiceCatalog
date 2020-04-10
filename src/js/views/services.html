@@ -10,7 +10,7 @@
               data='[[servicesDataSource]]'
               selection-mode='{"row": "single"}'
               on-selected-changed='[[servicesTblSelctionListener]]'
-              columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template": "serviceIDCellTemplate"},
+              columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template": "serviceDetailsCell"},
                         {"headerText": "Service Name", "field": "SERVICE_NAME"},
                         {"headerText": "Service Version", "field": "SERVICE_VERSION"},
                         {"headerText": "Project", "field": "MODULE"},
@@ -18,6 +18,9 @@
                         {"headerText": "Requested By", "field": "REQ_BY"},
                         {"headerText": "", "template": "intDetailsCell", "sortable": "disabled"}]'
               style='width:100%'>
+      <template slot='serviceDetailsCell' data-oj-as='cell'>
+        <a data-bind='click: openServiceDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
+      </template>
       <template slot='intDetailsCell'>
         <oj-button id='serviceListBtn' on-oj-action='[[openIntegrationsListDialog]]'>Interface Details</oj-button>
       </template>
