@@ -62,6 +62,14 @@ function(oj, ko, Bootstrap, PagingDataProviderView, ArrayDataProvider, KnockoutT
       document.getElementById('serviceListDialog').close();
     }
     //End Service List Dialog
+
+    //Open Integratoion Details
+    self.openIntegrationDetailsView = function(event) {
+      setTimeout(function() {
+        self.router = oj.Router.rootInstance;
+        self.router.go('integrationDetails');
+      });
+    }
       /**
        * Optional ViewModel method invoked after the View is inserted into the
        * document DOM.  The application can put logic that requires the DOM being

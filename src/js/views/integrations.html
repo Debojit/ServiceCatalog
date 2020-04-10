@@ -19,6 +19,9 @@
                         {"headerText": "Target System", "field": "TRGT_APP", "sortable": "enabled"},
                         {"headerText": "", "template": "svcDetailsCell", "sortable": "disabled"}]'
               style='width:100%'>
+        <template slot='integrationDetailsCell' data-oj-as='cell'>
+          <a data-bind='click: openIntegrationDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
+        </template>
         <template slot='svcDetailsCell'>
           <oj-button id='serviceListBtn' on-oj-action='[[openServiceListDialog]]'>Service Details</oj-button>
         </template>

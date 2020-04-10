@@ -34,6 +34,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
        self.router = Router.rootInstance;
        self.router.configure({
          'integrations': {label: 'Integrations', isDefault: true},
+         'integrationDetails': {label: 'Integration Details'},
          'services': {label: 'Services'}
        });
       Router.defaults['urlAdapter'] = new Router.urlParamAdapter();
