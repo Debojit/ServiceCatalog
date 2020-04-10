@@ -153,8 +153,28 @@
                                                 {"headerText": "Endpoint ID", "field": "ENDPOINT_NAME"},
                                                 {"headerText": "Endpoint Type", "field": "ENDPOINT_TYPE"},
                                                 {"headerText": "System", "field": "SYSTEM"}]'
-                                    style='width:100%'>
+                                    style='width:100%'/>
+                    </div>
+                </oj-collapsible>
+            </div>
 
+            <div id='errorCodesTable'>
+                <oj-collapsible id='errorCodesCollapsible' expanded='[[serviceData.Errors.length > 0]]'>
+                    <h2 slot='header'>Error Codes</h2>
+                    <div>
+                        <oj-table id='errorCodesTable'
+                                    aria-label='Error Codes'
+                                    data='[[errorCodesDataSource]]'
+                                    columns='[{"headerText": "Error Code", "field": "ERROR_CODE"},
+                                                {"headerText": "Severity", "field": "ERROR_SEVERITY"},
+                                                {"headerText": "Summary", "field": "ERROR_SUMMARY"},
+                                                {"headerText": "File Logging", "field": "FILE_LOG_FLAG"},
+                                                {"headerText": "Database Logging", "field": "DB_LOG_FLAG"},
+                                                {"headerText": "Email Alerts", "field": "EMAIL_FLAG"},
+                                                {"headerText": "Log File Path", "field": "LOG_FILE"}]'>
+                            <oj-bind-if test='[[paginateErrorCodes]]'>
+                                <oj-paging-control data='[[errorCodesDataSource]]' id='integrationTblPager' page-size='[[errorCodePageSize]]' slot='bottom'/>
+                            </oj-bind-if>
                         </oj-table>
                     </div>
                 </oj-collapsible>

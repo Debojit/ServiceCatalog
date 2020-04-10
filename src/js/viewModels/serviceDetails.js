@@ -10,11 +10,19 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
         function IntegrationDetailsViewModel() {
             var self = this;
 
+            self.errorCodePageSize = 10;
+            
             self.serviceData = app.selectedService(); //Load service details object
             //Create table data sources
             self.integrationsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Integrations), { idAttribute: 'INTERFACE_ID' });
             self.touchpointsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.ServiceTouchpoints), { idAttribute: 'TOUCHPOINT_ID' });
-            self.errorCodesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'}));
+            
+            self.paginateErrorCodes = (self.serviceData.Errors.length > self.errorCodePageSize);
+            if(self.paginateErrorCodes) {
+                self.errorCodesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'}));
+            } else {
+                self.errorCodesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'})
+            }
             
             //Navigate back to services list view
             self.backToServicesList = function (event) {
