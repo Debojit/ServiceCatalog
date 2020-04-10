@@ -10,8 +10,13 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
         function IntegrationDetailsViewModel() {
             var self = this;
 
-
-
+            self.serviceData = app.selectedService();
+            
+            self.backToServicesList = function(event) {
+                setTimeout(function() {
+                    self.router = oj.Router.rootInstance.go('services');
+                  });
+            }
             /**
              * Optional ViewModel method invoked after the View is inserted into the
              * document DOM.  The application can put logic that requires the DOM being
