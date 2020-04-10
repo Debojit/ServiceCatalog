@@ -2,186 +2,197 @@
  Copyright (c) 2014, 2020, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
- <div class='oj-hybrid-padding'>
-    <h1>Integration Details</h1>
-    
-    <div>
-      <div class=" oj-padding-horizontal" id="panel1" >
-        
-        <div class="oj-flex-item oj-form-layout oj-sm-12">
-          <div id='actionBtns' class='rtDiv'>
-            <oj-button id='backBtn' on-oj-action='[[backToIntegrationsList]]'>
-              <span slot='startIcon' class='fa fa-arrow-left fa-x'></span>
-              Back
-            </oj-button>
-          </div>
-        </div>
+<div class='oj-hybrid-padding'>
+  <h1>Integration Details</h1>
 
-        <div id='integrationDetails' class='oj-flex-item oj-form-layout oj-md-12 clearBoth'>
-          <div class='oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline oj-form-cols-labels-inline'  style='column-count: 4;'>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Interface ID:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_ID]]' readonly='true'></oj-input-text>
-              </div>
+  <div>
+    <div class=" oj-padding-horizontal" id="panel1">
+
+      <div class="oj-flex-item oj-form-layout oj-sm-12">
+        <div id='actionBtns' class='rtDiv'>
+          <oj-button id='backBtn' on-oj-action='[[backToIntegrationsList]]'>
+            <span slot='startIcon' class='fa fa-arrow-left fa-x'></span>
+            Back
+          </oj-button>
+        </div>
+      </div>
+
+      <div id='integrationDetails' class='oj-flex-item oj-form-layout oj-md-12 clearBoth'>
+        <div class='oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline oj-form-cols-labels-inline'
+          style='column-count: 4;'>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline" for=' jobName'>
+                <strong>Interface ID:</strong>
+              </oj-label>
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Interface Name:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_NAME]]' readonly='true'></oj-input-text>
-              </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_ID]]'
+                readonly='true' />
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Interface Description:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_DESC]]' readonly='true'></oj-input-text>
-              </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Interface Name:</strong>
+              </oj-label>
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Data Entity:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.DATA_ENTITY]]' readonly='true'></oj-input-text>
-              </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_NAME]]'
+                readonly='true' />
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Phoenix Phase:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.PHOENIX_PHASE]]' readonly='true'></oj-input-text>
-              </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Interface Description:</strong>
+              </oj-label>
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Domain Release:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.DOMAIN_RELEASE]]' readonly='true'></oj-input-text>
-              </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_DESC]]'
+                readonly='true' />
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Source Domain:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_DOMAIN]]' readonly='true'></oj-input-text>
-              </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Data Entity:</strong>
+              </oj-label>
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Target Domain:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_DOMAIN]]' readonly='true'></oj-input-text>
-              </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.DATA_ENTITY]]'
+                readonly='true' />
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Source System:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_APP]]' readonly='true'></oj-input-text>
-              </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Phoenix Phase:</strong>
+              </oj-label>
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Target System:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_APP]]' readonly='true'></oj-input-text>
-              </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.PHOENIX_PHASE]]'
+                readonly='true' />
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Source System Exposure Method:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_EXP_METHOD]]' readonly='true'></oj-input-text>
-              </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Domain Release:</strong>
+              </oj-label>
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Target System Consumption Method:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_CONSU_Method]]' readonly='true'></oj-input-text>
-              </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.DOMAIN_RELEASE]]'
+                readonly='true' />
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Source Format:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_Format]]' readonly='true'></oj-input-text>
-              </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Source Domain:</strong>
+              </oj-label>
             </div>
-            <div class='oj-flex'>
-              <div class='oj-flex-item'>
-                  <oj-label   class='oj-label-inline" for='jobName'>
-                      <strong>Target Format:</strong>
-                  </oj-label>
-              </div>
-              <div class='oj-flex-item'>
-                  <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_Format]]' readonly='true'></oj-input-text>
-              </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_DOMAIN]]'
+                readonly='true' />
+            </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Target Domain:</strong>
+              </oj-label>
+            </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_DOMAIN]]'
+                readonly='true' />
+            </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Source System:</strong>
+              </oj-label>
+            </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_APP]]'
+                readonly='true' />
+            </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Target System:</strong>
+              </oj-label>
+            </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_APP]]'
+                readonly='true' />
+            </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Source System Exposure Method:</strong>
+              </oj-label>
+            </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_EXP_METHOD]]'
+                readonly='true' />
+            </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Target System Consumption Method:</strong>
+              </oj-label>
+            </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_CONSU_Method]]'
+                readonly='true' />
+            </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Source Format:</strong>
+              </oj-label>
+            </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_Format]]'
+                readonly='true' />
+            </div>
+          </div>
+          <div class='oj-flex'>
+            <div class='oj-flex-item'>
+              <oj-label class='oj-label-inline' for='jobName'>
+                <strong>Target Format:</strong>
+              </oj-label>
+            </div>
+            <div class='oj-flex-item'>
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_Format]]'
+                readonly='true' />
             </div>
           </div>
         </div>
-        <hr/>
-        <div id='serviceDetails'>
-          <oj-collapsible id='serviceDetailsCollapsible' expanded='false'>
-            <h2 slot='header'>Services</h2>
-            <div>
-              <oj-table id='servicesTable'
-                aria-label='Service List'
-                data='[[servicesDataSource]]'
-                columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
+      </div>
+      <hr />
+      <div id='serviceDetails'>
+        <oj-collapsible id='serviceDetailsCollapsible' expanded='false'>
+          <h2 slot='header'>Services</h2>
+          <div>
+            <oj-table id='servicesTable' aria-label='Service List' data='[[servicesDataSource]]' columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
                           {"headerText": "Service Name", "field": "SERVICE_NAME"},
                           {"headerText": "Service Version", "field": "SERVICE_VERSION"},
                           {"headerText": "Project", "field": "MODULE"},
-                          {"headerText": "Platform", "field": "PLATFORM"}]'
-                style='width:100%'>
-        </oj-table>
-            </div>
-          </oj-collapsible>
-        </div>
-
+                          {"headerText": "Platform", "field": "PLATFORM"}]' style='width:100%'>
+            </oj-table>
+          </div>
+        </oj-collapsible>
       </div>
-    </div>
 
-    
+    </div>
   </div>
+
+
+</div>

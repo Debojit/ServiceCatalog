@@ -4,17 +4,143 @@
  -->
 <div class='oj-hybrid-padding'>
     <h1>Service Details</h1>
-    
+
     <div>
         <div class=" oj-padding-horizontal" id="panel1">
             <div class="oj-flex-item oj-form-layout oj-sm-12">
                 <div id='actionBtns' class='rtDiv'>
-                  <oj-button id='backBtn' on-oj-action='[[backToServicesList]]'>
-                    <span slot='startIcon' class='fa fa-arrow-left fa-x'></span>
-                    Back
-                  </oj-button>
+                    <oj-button id='backBtn' on-oj-action='[[backToServicesList]]'>
+                        <span slot='startIcon' class='fa fa-arrow-left fa-x'></span>
+                        Back
+                    </oj-button>
                 </div>
-              </div>
+            </div>
+
+            <div class='oj-flex-item oj-form-layout oj-sm-12 clearBoth'>
+                <div class='oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline oj-form-cols-labels-inline'
+                    style='column-count: 4;'>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='jobName'>
+                                <strong>Service ID:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' aria-label='Service ID' required='true'
+                                value='[[serviceData.SERVICE_ID]]' readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='description'>
+                                <strong>Service Name:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' required='true' aria-label='Service Name'
+                                value='[[serviceData.SERVICE_NAME]]' readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class="oj-label-inline" for='description'>
+                                <strong>Service Version:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' required='true' aria-label='Service Version'
+                                value="[[serviceData.SERVICE_VERSION]]" readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='jobName'>
+                                <strong>Service Description:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' required='true' aria-label='Service Description'
+                                value='[[serviceData.SERVICE_DESC]]' readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='description'>
+                                <strong>Project:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' aria-label='Project' required='true'
+                                value='[[serviceData.MODULE]]' readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='jobName'>
+                                <strong>Platform:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' required='true' aria-label='Platform'
+                                value='[[serviceData.PLATFORM]]' readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='description'>
+                                <strong>Response Pattern:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' required='true' aria-label='Response Pattern'
+                                value='[[serviceData.RESPONSE_PATTERN]]' readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='jobName'>
+                                <strong>Invocation Type:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' required='true' aria-label='Invocation Type'
+                                value='[[serviceData.INVOCATION_TYPE]]' readonly='true' />
+                        </div>
+                    </div>
+                    <div class='oj-flex'>
+                        <div class='oj-flex-item'>
+                            <oj-label class='oj-label-inline' for='jobName'>
+                                <strong>Requested By:</strong>
+                            </oj-label>
+                        </div>
+                        <div class='oj-flex-item'>
+                            <oj-input-text class='proj-textarea-color' aria-label='Requested By' required='true'
+                                value='[[serviceData.REQ_BY]]' readonly='true' />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            <div id='integrationsTable'>
+                <oj-collapsible id='integrationDetailsCollapsible' expanded='[[serviceData.Integrations.length > 0]]'>
+                    <h2 slot='header'>Integrations</h2>
+                    <div>
+                        <oj-table id='servicesTable'
+                                aria-label='Integrations List'
+                                data='[[integrationsDataSource]]'
+                                columns='[{"headerText": "Interface ID", "field": "INTERFACE_ID"},
+                                            {"headerText": "Interface Name", "field": "INTERFACE_NAME"},
+                                            {"headerText": "Source Domain", "field": "SRC_DOMAIN"},
+                                            {"headerText": "Target Domain", "field": "TRGT_DOMAIN"},
+                                            {"headerText": "Source System", "field": "SRC_APP"},
+                                            {"headerText": "Target System", "field": "TRGT_APP"}]'
+                                style='width:100%'>
+                        </oj-table>
+                    </div>
+                </oj-collapsible>
+            </div>
+            <hr />
         </div>
     </div>
 </div>

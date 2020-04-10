@@ -10,12 +10,17 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
         function IntegrationDetailsViewModel() {
             var self = this;
 
-            self.serviceData = app.selectedService();
+            self.serviceData = app.selectedService(); //Load service details object
+            //Create table data sources
+            self.integrationsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Integrations), { idAttribute: 'INTERFACE_ID' });
+            self.touchpointsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.ServiceTouchpoints), { idAttribute: 'TOUCHPOINT_ID' });
+            self.errorCodesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'});
             
-            self.backToServicesList = function(event) {
-                setTimeout(function() {
+            //Navigate back to services list view
+            self.backToServicesList = function (event) {
+                setTimeout(function () {
                     self.router = oj.Router.rootInstance.go('services');
-                  });
+                });
             }
             /**
              * Optional ViewModel method invoked after the View is inserted into the
