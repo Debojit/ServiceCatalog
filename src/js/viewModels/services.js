@@ -14,6 +14,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.integrationsList = ko.observableArray();
       self.integrationsDialogDataSource = ko.observable();
       
+      //Get all services
       $.ajax({
         type: 'GET',
         url: 'https://localhost:7102/enterprise-service-catalogue/resources/services',
@@ -62,12 +63,31 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       //Open Service Details
       self.openServiceDetailsView = function(event) {
         setTimeout(function() {
+          app.navHistory.push('services');
           self.router = oj.Router.rootInstance.go('serviceDetails');
         });
       }
-
-
-    //End Service List Dialog
+      
+      //Open integration details view
+      self.openIntegrationDetailsView = function(ojEvent, jqEvent) {
+        var url = 'https://localhost:7102/enterprise-service-catalogue/resources/integrations/' + jqEvent.currentTarget.text;
+        $.ajax({
+          type: 'GET',
+          url: url,
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            app.selectedIntegration(response);
+            app.navHistory.push('services');
+            self.router = oj.Router.rootInstance.go('integrationDetails');
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
+          }
+        });
+      }
       /**
        * Optional ViewModel method invoked after the View is inserted into the
        * document DOM.  The application can put logic that requires the DOM being

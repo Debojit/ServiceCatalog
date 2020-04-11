@@ -4,7 +4,7 @@
  -->
 <div class='oj-hybrid-padding'>
   <div id='pagedIntegrationsDiv'>
-    <h2>Integration Details</h2>
+    <h2>Integrations</h2>
     <oj-table id='integrationsTable'
               aria-label='Integrations Table'
               data='[[integrationsDataSource]]'
@@ -35,12 +35,16 @@
         <oj-table id='servicesTable'
                 aria-label='Service List'
                 data='[[servicesDialogDataSource]]'
-                columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
+                selection-mode='{"row": "single"}'
+                columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template" : "serviceDetailsCell"},
                           {"headerText": "Service Name", "field": "SERVICE_NAME"},
                           {"headerText": "Service Version", "field": "SERVICE_VERSION"},
                           {"headerText": "Project", "field": "MODULE"},
                           {"headerText": "Platform", "field": "PLATFORM"}]'
                 style='width:100%'>
+          <template slot='serviceDetailsCell' data-oj-as='cell'>
+            <a data-bind='click: openServiceDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
+          </template>
         </oj-table>
       </div>
       <div slot='footer'>

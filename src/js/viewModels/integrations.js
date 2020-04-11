@@ -13,7 +13,8 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.integrationsList = ko.observableArray();
       self.servicesList = ko.observableArray();
       self.servicesDialogDataSource = ko.observable();
-      
+      self.selectedServiceId = ko.observable();
+      //Get all integrations
       $.ajax({
         type: 'GET',
         url: 'https://localhost:7102/enterprise-service-catalogue/resources/integrations',
@@ -28,44 +29,65 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         failure: function(response) {
           alert(JSON.stringify(response));
         }
-    });
-
-    self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
-
-    //Table selection listener
-    self.integrationsTblSelctionListener = function(event) {
-      var interfaceId = null;
-      event.detail.value.row.values().forEach(key => {
-        interfaceId = key;
       });
+
+      self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
+
+      //Integrations table selection listener
+      self.integrationsTblSelctionListener = function(event) {
+        var interfaceId = null;
+        event.detail.value.row.values().forEach(key => {
+          interfaceId = key;
+        });
       
-      if(interfaceId != undefined) {
-        $.each(self.integrationsList(), function(id, integration) {
-          if(integration.INTERFACE_ID == interfaceId) {
-            app.selectedIntegration(integration);
-            self.servicesList(integration.Services);
+        if(interfaceId != undefined) {
+          $.each(self.integrationsList(), function(id, integration) {
+            if(integration.INTERFACE_ID == interfaceId) {
+              app.selectedIntegration(integration);
+              self.servicesList(integration.Services);
+            }
+          });
+        }
+      }
+
+      // Service list dialog
+      self.openServicesListDialog = function(event) {
+        self.servicesDialogDataSource(new ArrayDataProvider(self.servicesList, {idAttribute: 'SERVICE_ID'}));
+        document.getElementById('servicesListDialog').open();
+      }
+
+      self.closeServicesListDialog = function(event) {
+        document.getElementById('servicesListDialog').close();
+      }
+
+      //Open integratoion details view
+      self.openIntegrationDetailsView = function(event) {
+        setTimeout(function() {
+          self.router = oj.Router.rootInstance.go('integrationDetails');
+        });
+      }
+      
+      //Open service details view
+      self.openServiceDetailsView = function(ojEvent, jqEvent) {
+        var url = 'https://localhost:7102/enterprise-service-catalogue/resources/services/' + jqEvent.currentTarget.text;
+        $.ajax({
+          type: 'GET',
+          url: url,
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            app.selectedService(response);
+            app.navHistory.push('integrations');
+            self.router = oj.Router.rootInstance.go('serviceDetails');
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
           }
         });
       }
-    }
 
-    // Service List Dialog
-    self.openServicesListDialog = function(event) {
-      self.servicesDialogDataSource(new ArrayDataProvider(self.servicesList, {idAttribute: 'SERVICE_ID'}));
-      document.getElementById('servicesListDialog').open();
-    }
-
-    self.closeServicesListDialog = function(event) {
-      document.getElementById('servicesListDialog').close();
-    }
-    //End Service List Dialog
-
-    //Open Integratoion Details
-    self.openIntegrationDetailsView = function(event) {
-      setTimeout(function() {
-        self.router = oj.Router.rootInstance.go('integrationDetails');
-      });
-    }
       /**
        * Optional ViewModel method invoked after the View is inserted into the
        * document DOM.  The application can put logic that requires the DOM being

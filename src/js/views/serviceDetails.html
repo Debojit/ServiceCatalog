@@ -3,13 +3,13 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class='oj-hybrid-padding'>
-    <h1>Service Details</h1>
+    <h2>Service Details</h2>
 
     <div>
         <div class=" oj-padding-horizontal" id="panel1">
             <div class="oj-flex-item oj-form-layout oj-sm-12">
                 <div id='actionBtns' class='rtDiv'>
-                    <oj-button id='backBtn' on-oj-action='[[backToServicesList]]'>
+                    <oj-button id='backBtn' on-oj-action='[[backToPreviousView]]'>
                         <span slot='startIcon' class='fa fa-arrow-left fa-x'></span>
                         Back
                     </oj-button>
@@ -124,18 +124,21 @@
 
             <div id='integrationsTable'>
                 <oj-collapsible id='integrationDetailsCollapsible' expanded='[[serviceData.Integrations.length > 0]]'>
-                    <h2 slot='header'>Integrations</h2>
+                    <h3 slot='header'>Integrations</h3>
                     <div>
                         <oj-table id='integrationsTable'
                                 aria-label='Integrations List'
                                 data='[[integrationsDataSource]]'
-                                columns='[{"headerText": "Interface ID", "field": "INTERFACE_ID"},
+                                columns='[{"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell"},
                                             {"headerText": "Interface Name", "field": "INTERFACE_NAME"},
                                             {"headerText": "Source Domain", "field": "SRC_DOMAIN"},
                                             {"headerText": "Target Domain", "field": "TRGT_DOMAIN"},
                                             {"headerText": "Source System", "field": "SRC_APP"},
                                             {"headerText": "Target System", "field": "TRGT_APP"}]'
                                 style='width:100%'>
+                            <template slot='integrationDetailsCell' data-oj-as='cell'>
+                                <a data-bind='click: openIntegrationDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
+                            </template>
                         </oj-table>
                     </div>
                 </oj-collapsible>
@@ -144,7 +147,7 @@
 
             <div id='touchpointsTable'>
                 <oj-collapsible id='touchpointDetailsCollapsible' expanded='[[serviceData.ServiceTouchpoints.length > 0]]'>
-                    <h2 slot='header'>Touchpoints</h2>
+                    <h3 slot='header'>Touchpoints</h3>
                     <div>
                         <oj-table id='touchpointsTable'
                                     aria-label='Service Touchpoints'
@@ -160,7 +163,7 @@
             <br />
             <div id='errorCodesTable'>
                 <oj-collapsible id='errorCodesCollapsible' expanded='[[serviceData.Errors.length > 0]]'>
-                    <h2 slot='header'>Error Codes</h2>
+                    <h3 slot='header'>Error Codes</h3>
                     <div>
                         <oj-table id='errorCodesTable'
                                     aria-label='Error Codes'

@@ -24,10 +24,31 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
                 self.errorCodesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'})
             }
             
-            //Navigate back to services list view
-            self.backToServicesList = function (event) {
+            //Navigate back to previous view
+            self.backToPreviousView = function (event) {
                 setTimeout(function () {
-                    self.router = oj.Router.rootInstance.go('services');
+                    oj.Router.rootInstance.go(app.navHistory().pop());
+                });
+            }
+
+            //Open integration details view
+            self.openIntegrationDetailsView = function(ojEvent, jqEvent) {
+                var url = 'https://localhost:7102/enterprise-service-catalogue/resources/integrations/' + jqEvent.currentTarget.text;
+                $.ajax({
+                type: 'GET',
+                url: url,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+                },
+                dataType: 'json',
+                success: function(response) {
+                    app.selectedIntegration(response);
+                    app.navHistory.push('serviceDetails');
+                    self.router = oj.Router.rootInstance.go('integrationDetails');
+                },
+                failure: function(response) {
+                    alert(JSON.stringify(response));
+                }
                 });
             }
             /**

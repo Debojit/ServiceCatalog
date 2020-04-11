@@ -15,12 +15,34 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.servicesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.integrationData.Services), {idAttribute: 'SERVICE_ID'}); //Create data source for services table
             
         //Navigate back to integrations view
-      self.backToIntegrationsList = function(event) {
+      self.backToPreviousView = function(event) {
         setTimeout(function() {
-          self.router = oj.Router.rootInstance.go('integrations');
+          //var navHistory = oj.Router.rootInstance._navHistory;
+          oj.Router.rootInstance.go(app.navHistory().pop());
         });
       }
 
+      //Open service details view
+      self.openServiceDetailsView = function(ojEvent, jqEvent) {
+        var url = 'https://localhost:7102/enterprise-service-catalogue/resources/services/' + jqEvent.currentTarget.text;
+        $.ajax({
+          type: 'GET',
+          url: url,
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            app.selectedService(response);
+            app.navHistory.push('integrationDetails');
+            self.router = oj.Router.rootInstance.go('serviceDetails');
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
+          }
+        });
+      }
+      
       /**
        * Optional ViewModel method invoked after the View is inserted into the
        * document DOM.  The application can put logic that requires the DOM being

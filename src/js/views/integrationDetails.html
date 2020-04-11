@@ -3,14 +3,14 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class='oj-hybrid-padding'>
-  <h1>Integration Details</h1>
+  <h2>Integration Details</h2>
 
   <div>
     <div class=" oj-padding-horizontal" id="panel1">
 
       <div class="oj-flex-item oj-form-layout oj-sm-12">
         <div id='actionBtns' class='rtDiv'>
-          <oj-button id='backBtn' on-oj-action='[[backToIntegrationsList]]'>
+          <oj-button id='backBtn' on-oj-action='[[backToPreviousView]]'>
             <span slot='startIcon' class='fa fa-arrow-left fa-x'></span>
             Back
           </oj-button>
@@ -179,17 +179,20 @@
       <hr />
       <div id='serviceDetails'>
         <oj-collapsible id='serviceDetailsCollapsible' expanded='[[integrationData.Services.length > 0]]'>
-          <h2 slot='header'>Services</h2>
+          <h3 slot='header'>Services</h3>
           <div>
             <oj-table id='servicesTable'
                       aria-label='Service List'
                       data='[[servicesDataSource]]'
-                      columns='[{"headerText": "Service ID", "field": "SERVICE_ID"},
+                      columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template" : "serviceDetailsCell"},
                           {"headerText": "Service Name", "field": "SERVICE_NAME"},
                           {"headerText": "Service Version", "field": "SERVICE_VERSION"},
                           {"headerText": "Project", "field": "MODULE"},
                           {"headerText": "Platform", "field": "PLATFORM"}]'
                       style='width:100%'>
+              <template slot='serviceDetailsCell' data-oj-as='cell'>
+                <a data-bind='click: openServiceDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
+              </template>
             </oj-table>
           </div>
         </oj-collapsible>

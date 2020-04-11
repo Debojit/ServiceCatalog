@@ -75,6 +75,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       //Global variables
       self.selectedIntegration = ko.observable();
       self.selectedService = ko.observable();
+      self.navHistory = ko.observableArray();
       //END global variables
 
       // Footer
