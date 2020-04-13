@@ -43,23 +43,24 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
 
       //Get all integrations
       self.getAllIntegrations = function() {
-        if(self.integrationsList().length == 0) {
-          $.ajax({
-            type: 'GET',
-            url: app.apiBaseUrl + 'integrations',
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
-            },
-            dataType: 'json',
-            success: function(response) {
-              self.integrationsList.removeAll();
-              self.integrationsList(response);
-            },
-            failure: function(response) {
-              alert(JSON.stringify(response));
-            }
-          });
-        }
+        $.ajax({
+          type: 'GET',
+          url: app.apiBaseUrl + 'integrations',
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            self.resetPrimarySearch();
+            self.resetDomainSearch();
+            self.resetSystemSearch();
+            self.integrationsList.removeAll();
+            self.integrationsList(response);
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
+          }
+        });
       }
       self.getAllIntegrations(); //Get all integrations on page load
       self.integrationsDataSource(new PagingDataProviderView(new ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'})));

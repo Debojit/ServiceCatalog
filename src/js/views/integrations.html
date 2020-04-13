@@ -89,7 +89,7 @@
   <br />
 
   <div id='pagedIntegrationsDiv'>
-    <h2>Integration Catalogue</h2>
+    <h2>Integration Catalogue&nbsp;<a data-bind='click: getAllIntegrations' class='cursor' style='font-size: 15px'>Show All</a></h2>
     <!--<a data-bind='click: getAllIntegrations' style='font-size : 15px'class='cursor' >(Show All)</a>-->
     <oj-table id='integrationsTable' aria-label='Integrations Table' data='[[integrationsDataSource]]'
       selection-mode='{"row": "single"}' on-selected-changed='[[integrationsTblSelctionListener]]' columns='[{"headerText": "Serial No.", "field": "SNO", "sortable": "enabled"},
