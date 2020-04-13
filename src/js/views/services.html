@@ -10,12 +10,12 @@
               data='[[servicesDataSource]]'
               selection-mode='{"row": "single"}'
               on-selected-changed='[[servicesTblSelctionListener]]'
-              columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template": "serviceDetailsCell"},
-                        {"headerText": "Service Name", "field": "SERVICE_NAME"},
-                        {"headerText": "Service Version", "field": "SERVICE_VERSION"},
-                        {"headerText": "Project", "field": "MODULE"},
-                        {"headerText": "Platform", "field": "PLATFORM"},
-                        {"headerText": "Requested By", "field": "REQ_BY"},
+              columns='[{"headerText": "Service ID", "field": "serviceId", "template": "serviceDetailsCell"},
+                        {"headerText": "Service Name", "field": "serviceName"},
+                        {"headerText": "Service Version", "field": "serviceVersion"},
+                        {"headerText": "Project", "field": "module"},
+                        {"headerText": "Platform", "field": "platform"},
+                        {"headerText": "Requested By", "field": "reqBy"},
                         {"headerText": "", "template": "intDetailsCell", "sortable": "disabled"}]'
               style='width:100%'>
       <template slot='serviceDetailsCell' data-oj-as='cell'>
@@ -34,12 +34,12 @@
         <oj-table id='integrationsTable'
                 aria-label='Integrations List'
                 data='[[integrationsDialogDataSource]]'
-                columns='[{"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell"},
-                          {"headerText": "Interface Name", "field": "INTERFACE_NAME"},
-                          {"headerText": "Source Domain", "field": "SRC_DOMAIN"},
-                          {"headerText": "Target Domain", "field": "TRGT_DOMAIN"},
-                          {"headerText": "Source System", "field": "SRC_APP"},
-                          {"headerText": "Target System", "field": "TRGT_APP"}]'
+                columns='[{"headerText": "Interface ID", "field": "interfaceId", "template": "integrationDetailsCell"},
+                          {"headerText": "Interface Name", "field": "interfaceName"},
+                          {"headerText": "Source Domain", "field": "srcDomain"},
+                          {"headerText": "Target Domain", "field": "tgtDomain"},
+                          {"headerText": "Source System", "field": "srcApp"},
+                          {"headerText": "Target System", "field": "tgtApp"}]'
                 style='width:100%'>
           <template slot='integrationDetailsCell' data-oj-as='cell'>
             <a data-bind='click: openIntegrationDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>

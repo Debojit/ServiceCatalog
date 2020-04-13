@@ -12,7 +12,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
 
       self.integrationData = app.selectedIntegration(); //Load integrations detail object
       
-      self.servicesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.integrationData.Services), {idAttribute: 'SERVICE_ID'}); //Create data source for services table
+      self.servicesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.integrationData.services), {idAttribute: 'serviceId'}); //Create data source for services table
             
         //Navigate back to integrations view
       self.backToPreviousView = function(event) {
@@ -23,7 +23,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
 
       //Open service details view
       self.openServiceDetailsView = function(ojEvent, jqEvent) {
-        var url = 'https://localhost:7102/enterprise-service-catalogue/resources/services/' + jqEvent.currentTarget.text;
+        var url = app.apiBaseUrl + 'services/' + jqEvent.currentTarget.text;
         $.ajax({
           type: 'GET',
           url: url,

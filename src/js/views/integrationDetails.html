@@ -27,7 +27,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_ID]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.interfaceId]]'
                 readonly='true' />
             </div>
           </div>
@@ -38,7 +38,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_NAME]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.interfaceName]]'
                 readonly='true' />
             </div>
           </div>
@@ -49,7 +49,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.INTERFACE_DESC]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.interfaceDesc]]'
                 readonly='true' />
             </div>
           </div>
@@ -60,7 +60,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.DATA_ENTITY]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.dataEntity]]'
                 readonly='true' />
             </div>
           </div>
@@ -71,7 +71,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.PHOENIX_PHASE]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.phoenixPhase]]'
                 readonly='true' />
             </div>
           </div>
@@ -82,7 +82,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.DOMAIN_RELEASE]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.domainRelease]]'
                 readonly='true' />
             </div>
           </div>
@@ -93,7 +93,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_DOMAIN]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.srcDomain]]'
                 readonly='true' />
             </div>
           </div>
@@ -104,7 +104,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_DOMAIN]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.tgtDomain]]'
                 readonly='true' />
             </div>
           </div>
@@ -115,7 +115,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_APP]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.srcApp]]'
                 readonly='true' />
             </div>
           </div>
@@ -126,7 +126,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_APP]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.tgtApp]]'
                 readonly='true' />
             </div>
           </div>
@@ -137,7 +137,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_EXP_METHOD]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.srcExpMethod]]'
                 readonly='true' />
             </div>
           </div>
@@ -148,7 +148,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_CONSU_Method]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.tgtConsuMethod]]'
                 readonly='true' />
             </div>
           </div>
@@ -159,7 +159,7 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.SRC_Format]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.srcFormat]]'
                 readonly='true' />
             </div>
           </div>
@@ -170,25 +170,26 @@
               </oj-label>
             </div>
             <div class='oj-flex-item'>
-              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.TRGT_Format]]'
+              <oj-input-text class='proj-textarea-color' required='true' value='[[integrationData.tgtFormat]]'
                 readonly='true' />
             </div>
           </div>
         </div>
       </div>
       <hr />
+      
       <div id='serviceDetails'>
-        <oj-collapsible id='serviceDetailsCollapsible' expanded='[[integrationData.Services.length > 0]]'>
+        <oj-collapsible id='serviceDetailsCollapsible' expanded='[[integrationData.services.length > 0]]'>
           <h3 slot='header'>Services</h3>
           <div>
             <oj-table id='servicesTable'
                       aria-label='Service List'
                       data='[[servicesDataSource]]'
-                      columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template" : "serviceDetailsCell"},
-                          {"headerText": "Service Name", "field": "SERVICE_NAME"},
-                          {"headerText": "Service Version", "field": "SERVICE_VERSION"},
-                          {"headerText": "Project", "field": "MODULE"},
-                          {"headerText": "Platform", "field": "PLATFORM"}]'
+                      columns='[{"headerText": "Service ID", "field": "serviceId", "template" : "serviceDetailsCell"},
+                          {"headerText": "Service Name", "field": "serviceName"},
+                          {"headerText": "Service Version", "field": "serviceVersion"},
+                          {"headerText": "Project", "field": "module"},
+                          {"headerText": "Platform", "field": "platform"}]'
                       style='width:100%'>
               <template slot='serviceDetailsCell' data-oj-as='cell'>
                 <a data-bind='click: openServiceDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
@@ -200,6 +201,4 @@
 
     </div>
   </div>
-
-
 </div>

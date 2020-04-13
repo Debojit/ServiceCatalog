@@ -14,14 +14,14 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
             
             self.serviceData = app.selectedService(); //Load service details object
             //Create table data sources
-            self.integrationsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Integrations), { idAttribute: 'INTERFACE_ID' });
-            self.touchpointsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.ServiceTouchpoints), { idAttribute: 'TOUCHPOINT_ID' });
+            self.integrationsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.integrations), { idAttribute: 'interfaceId' });
+            self.touchpointsDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.touchpoints), { idAttribute: 'touchpointId' });
             
-            self.paginateErrorCodes = (self.serviceData.Errors.length > self.errorCodePageSize);
+            self.paginateErrorCodes = (self.serviceData.errors.length > self.errorCodePageSize);
             if(self.paginateErrorCodes) {
-                self.errorCodesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'}));
+                self.errorCodesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(ko.observableArray(self.serviceData.errors), { idAttribute: 'errorCode'}));
             } else {
-                self.errorCodesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.Errors), { idAttribute: 'ERROR_CODE'})
+                self.errorCodesDataSource = new oj.ArrayDataProvider(ko.observableArray(self.serviceData.errors), { idAttribute: 'errorCode'})
             }
             
             //Navigate back to previous view
@@ -33,7 +33,7 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
 
             //Open integration details view
             self.openIntegrationDetailsView = function(ojEvent, jqEvent) {
-                var url = 'https://localhost:7102/enterprise-service-catalogue/resources/integrations/' + jqEvent.currentTarget.text;
+                var url = app.apiBaseUrl + 'integrations/' + jqEvent.currentTarget.text;
                 $.ajax({
                 type: 'GET',
                 url: url,

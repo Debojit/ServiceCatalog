@@ -63,7 +63,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         });
       }
       self.getAllIntegrations(); //Get all integrations on page load
-      self.integrationsDataSource(new PagingDataProviderView(new ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'})));
+      self.integrationsDataSource(new PagingDataProviderView(new ArrayDataProvider(self.integrationsList, {idAttribute: 'interfaceId'})));
 
       //Populate lookup LOVs
       self.getLookupLovs = function() {
@@ -316,9 +316,9 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       
         if(interfaceId != undefined) {
           $.each(self.integrationsList(), function(id, integration) {
-            if(integration.INTERFACE_ID == interfaceId) {
+            if(integration.interfaceId == interfaceId) {
               app.selectedIntegration(integration);
-              self.servicesList(integration.Services);
+              self.servicesList(integration.services);
             }
           });
         }
@@ -326,7 +326,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
 
       // Service list dialog
       self.openServicesListDialog = function(event) {
-        self.servicesDialogDataSource(new ArrayDataProvider(self.servicesList, {idAttribute: 'SERVICE_ID'}));
+        self.servicesDialogDataSource(new ArrayDataProvider(self.servicesList, {idAttribute: 'serviceId'}));
         document.getElementById('servicesListDialog').open();
       }
 

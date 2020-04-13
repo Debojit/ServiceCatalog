@@ -99,13 +99,13 @@
     <div id='pagedIntegrationsDiv'>
       <h2>Integration Catalogue&nbsp;<a data-bind='click: getAllIntegrations' style='font-size : 15px' class='cursor'>Show All</a></h2>
       <oj-table id='integrationsTable' aria-label='Integrations Table' data='[[integrationsDataSource]]'
-        selection-mode='{"row": "single"}' on-selected-changed='[[integrationsTblSelctionListener]]' columns='[{"headerText": "Serial No.", "field": "SNO", "sortable": "enabled"},
-                          {"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell", "sortable": "enabled"},
-                          {"headerText": "Interface Name", "field": "INTERFACE_NAME", "template": "integrationTooltipCell", "sortable": "enabled"},
-                          {"headerText": "Source Domain", "field": "SRC_DOMAIN", "sortable": "enabled"},
-                          {"headerText": "Target Domain", "field": "TRGT_DOMAIN", "sortable": "enabled"},
-                          {"headerText": "Source System", "field": "SRC_APP", "sortable": "enabled"},
-                          {"headerText": "Target System", "field": "TRGT_APP", "sortable": "enabled"},
+        selection-mode='{"row": "single"}' on-selected-changed='[[integrationsTblSelctionListener]]' columns='[{"headerText": "Serial No.", "field": "serialNo", "sortable": "enabled"},
+                          {"headerText": "Interface ID", "field": "interfaceId", "template": "integrationDetailsCell", "sortable": "enabled"},
+                          {"headerText": "Interface Name", "field": "interfaceName", "template": "integrationTooltipCell", "sortable": "enabled"},
+                          {"headerText": "Source Domain", "field": "srcDomain", "sortable": "enabled"},
+                          {"headerText": "Target Domain", "field": "tgtDomain", "sortable": "enabled"},
+                          {"headerText": "Source System", "field": "srcApp", "sortable": "enabled"},
+                          {"headerText": "Target System", "field": "tgtApp", "sortable": "enabled"},
                           {"headerText": "", "template": "svcDetailsCell", "sortable": "disabled"}]'
         style='width:100%'>
         <template slot='integrationDetailsCell' data-oj-as='cell'>
@@ -123,11 +123,11 @@
       <oj-dialog dialog-title='Service List' id='servicesListDialog' style='display:none;width: 90vw; height: 30vh;'>
         <div slot='body'>
           <oj-table id='servicesTable' aria-label='Service List' data='[[servicesDialogDataSource]]'
-            selection-mode='{"row": "single"}' columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template" : "serviceDetailsCell"},
-                            {"headerText": "Service Name", "field": "SERVICE_NAME"},
-                            {"headerText": "Service Version", "field": "SERVICE_VERSION"},
-                            {"headerText": "Project", "field": "MODULE"},
-                            {"headerText": "Platform", "field": "PLATFORM"}]' style='width:100%'>
+            selection-mode='{"row": "single"}' columns='[{"headerText": "Service ID", "field": "serviceId", "template" : "serviceDetailsCell"},
+                            {"headerText": "Service Name", "field": "serviceName"},
+                            {"headerText": "Service Version", "field": "serviceVersion"},
+                            {"headerText": "Project", "field": "module"},
+                            {"headerText": "Platform", "field": "platform"}]' style='width:100%'>
             <template slot='serviceDetailsCell' data-oj-as='cell'>
               <a data-bind='click: openServiceDetailsView' class='cursor'>
                 <oj-bind-text value='[[cell.data]]' /></a>

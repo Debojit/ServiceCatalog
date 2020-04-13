@@ -17,7 +17,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       //Get all services
       $.ajax({
         type: 'GET',
-        url: 'https://localhost:7102/enterprise-service-catalogue/resources/services',
+        url: app.apiBaseUrl + 'services',
         beforeSend: function(xhr) {
             xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
         },
@@ -31,7 +31,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         }
       });
       
-      self.servicesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.servicesList, {idAttribute: 'SERVICE_ID'}));
+      self.servicesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.servicesList, {idAttribute: 'serviceId'}));
 
       //Table selection listener
       self.servicesTblSelctionListener = function(event) {
@@ -42,9 +42,9 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         
         if(serviceId != undefined) {
           $.each(self.servicesList(), function(id, service) {
-            if(service.SERVICE_ID == serviceId) {
+            if(service.serviceId == serviceId) {
               app.selectedService(service);
-              self.integrationsList(service.Integrations);
+              self.integrationsList(service.integrations);
             }
           });
         }
@@ -52,7 +52,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
 
       // Integrations List Dialog 
       self.openIntegrationsListDialog = function(event) {
-        self.integrationsDialogDataSource(new ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
+        self.integrationsDialogDataSource(new ArrayDataProvider(self.integrationsList, {idAttribute: 'interfaceId'}));
         document.getElementById('integrationsListDialog').open();
       }
 
@@ -70,7 +70,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       
       //Open integration details view
       self.openIntegrationDetailsView = function(ojEvent, jqEvent) {
-        var url = 'https://localhost:7102/enterprise-service-catalogue/resources/integrations/' + jqEvent.currentTarget.text;
+        var url =  app.apiBaseUrl + 'integrations/' + jqEvent.currentTarget.text;
         $.ajax({
           type: 'GET',
           url: url,

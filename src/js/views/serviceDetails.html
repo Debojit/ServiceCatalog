@@ -27,7 +27,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' aria-label='Service ID' required='true'
-                                value='[[serviceData.SERVICE_ID]]' readonly='true' />
+                                value='[[serviceData.serviceId]]' readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -38,7 +38,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' required='true' aria-label='Service Name'
-                                value='[[serviceData.SERVICE_NAME]]' readonly='true' />
+                                value='[[serviceData.serviceName]]' readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -49,7 +49,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' required='true' aria-label='Service Version'
-                                value="[[serviceData.SERVICE_VERSION]]" readonly='true' />
+                                value="[[serviceData.serviceVersion]]" readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -60,7 +60,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' required='true' aria-label='Service Description'
-                                value='[[serviceData.SERVICE_DESC]]' readonly='true' />
+                                value='[[serviceData.serviceDesc]]' readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -71,7 +71,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' aria-label='Project' required='true'
-                                value='[[serviceData.MODULE]]' readonly='true' />
+                                value='[[serviceData.module]]' readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -82,7 +82,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' required='true' aria-label='Platform'
-                                value='[[serviceData.PLATFORM]]' readonly='true' />
+                                value='[[serviceData.platform]]' readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -93,7 +93,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' required='true' aria-label='Response Pattern'
-                                value='[[serviceData.RESPONSE_PATTERN]]' readonly='true' />
+                                value='[[serviceData.responsePattern]]' readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -104,7 +104,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' required='true' aria-label='Invocation Type'
-                                value='[[serviceData.INVOCATION_TYPE]]' readonly='true' />
+                                value='[[serviceData.invocationType]]' readonly='true' />
                         </div>
                     </div>
                     <div class='oj-flex'>
@@ -115,7 +115,7 @@
                         </div>
                         <div class='oj-flex-item'>
                             <oj-input-text class='proj-textarea-color' aria-label='Requested By' required='true'
-                                value='[[serviceData.REQ_BY]]' readonly='true' />
+                                value='[[serviceData.reqBy]]' readonly='true' />
                         </div>
                     </div>
                 </div>
@@ -123,18 +123,18 @@
             <hr />
 
             <div id='integrationsTable'>
-                <oj-collapsible id='integrationDetailsCollapsible' expanded='[[serviceData.Integrations.length > 0]]'>
+                <oj-collapsible id='integrationDetailsCollapsible' expanded='[[serviceData.integrations.length > 0]]'>
                     <h3 slot='header'>Integrations</h3>
                     <div>
                         <oj-table id='integrationsTable'
                                 aria-label='Integrations List'
                                 data='[[integrationsDataSource]]'
-                                columns='[{"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell"},
-                                            {"headerText": "Interface Name", "field": "INTERFACE_NAME"},
-                                            {"headerText": "Source Domain", "field": "SRC_DOMAIN"},
-                                            {"headerText": "Target Domain", "field": "TRGT_DOMAIN"},
-                                            {"headerText": "Source System", "field": "SRC_APP"},
-                                            {"headerText": "Target System", "field": "TRGT_APP"}]'
+                                columns='[{"headerText": "Interface ID", "field": "interfaceId", "template": "integrationDetailsCell"},
+                                            {"headerText": "Interface Name", "field": "interfaceName"},
+                                            {"headerText": "Source Domain", "field": "srcDomain"},
+                                            {"headerText": "Target Domain", "field": "tgtDomain"},
+                                            {"headerText": "Source System", "field": "srcApp"},
+                                            {"headerText": "Target System", "field": "tgtApp"}]'
                                 style='width:100%'>
                             <template slot='integrationDetailsCell' data-oj-as='cell'>
                                 <a data-bind='click: openIntegrationDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
@@ -146,35 +146,35 @@
             <br />
 
             <div id='touchpointsTable'>
-                <oj-collapsible id='touchpointDetailsCollapsible' expanded='[[serviceData.ServiceTouchpoints.length > 0]]'>
+                <oj-collapsible id='touchpointDetailsCollapsible' expanded='[[serviceData.touchpoints.length > 0]]'>
                     <h3 slot='header'>Touchpoints</h3>
                     <div>
                         <oj-table id='touchpointsTable'
                                     aria-label='Service Touchpoints'
                                     data=[[touchpointsDataSource]]
-                                    columns='[{"headerText": "Touchpoint ID", "field": "TOUCHPOINT_ID"},
-                                                {"headerText": "Endpoint ID", "field": "ENDPOINT_NAME"},
-                                                {"headerText": "Endpoint Type", "field": "ENDPOINT_TYPE"},
-                                                {"headerText": "System", "field": "SYSTEM"}]'
+                                    columns='[{"headerText": "Touchpoint ID", "field": "touchpointId"},
+                                                {"headerText": "Endpoint ID", "field": "endpointName"},
+                                                {"headerText": "Endpoint Type", "field": "endpointType"},
+                                                {"headerText": "System", "field": "system"}]'
                                     style='width:100%'/>
                     </div>
                 </oj-collapsible>
             </div>
             <br />
             <div id='errorCodesTable'>
-                <oj-collapsible id='errorCodesCollapsible' expanded='[[serviceData.Errors.length > 0]]'>
+                <oj-collapsible id='errorCodesCollapsible' expanded='[[serviceData.errors.length > 0]]'>
                     <h3 slot='header'>Error Codes</h3>
                     <div>
                         <oj-table id='errorCodesTable'
                                     aria-label='Error Codes'
                                     data='[[errorCodesDataSource]]'
-                                    columns='[{"headerText": "Error Code", "field": "ERROR_CODE"},
-                                                {"headerText": "Severity", "field": "ERROR_SEVERITY"},
-                                                {"headerText": "Summary", "field": "ERROR_SUMMARY"},
-                                                {"headerText": "File Logging", "field": "FILE_LOG_FLAG"},
-                                                {"headerText": "Database Logging", "field": "DB_LOG_FLAG"},
-                                                {"headerText": "Email Alerts", "field": "EMAIL_FLAG"},
-                                                {"headerText": "Log File Path", "field": "LOG_FILE"}]'>
+                                    columns='[{"headerText": "Error Code", "field": "errorCode"},
+                                                {"headerText": "Severity", "field": "errorSeverity"},
+                                                {"headerText": "Summary", "field": "errorSummary"},
+                                                {"headerText": "File Logging", "field": "fileLogFlag"},
+                                                {"headerText": "Database Logging", "field": "dbLogFlag"},
+                                                {"headerText": "Email Alerts", "field": "emailFlag"},
+                                                {"headerText": "Log File Path", "field": "logFile"}]'>
                             <oj-bind-if test='[[paginateErrorCodes]]'>
                                 <oj-paging-control data='[[errorCodesDataSource]]' id='integrationTblPager' page-size='[[errorCodePageSize]]' slot='bottom'/>
                             </oj-bind-if>
