@@ -37,9 +37,9 @@
           <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
             <oj-form-layout id='domainSearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
               <oj-label for='srcDomainLov'>Source Domain</oj-label>
-              <oj-select-single id='srcDomainLov' data='[[domainTypesLov]]' value='{{srcDomain}}'></oj-select-single>
+              <oj-select-single id='srcDomainLov' data='[[domainTypesLov]]' value='{{srcDomain}}' on-value-changed='[[domainSearchValueChange]]'></oj-select-single>
               <oj-label for='tgtDomainLov'>Target Domain</oj-label>
-              <oj-select-single id='tgtDomainLov' data='[[domainTypesLov]]' value='{{tgtDomain}}'></oj-select-single>
+              <oj-select-single id='tgtDomainLov' data='[[domainTypesLov]]' value='{{tgtDomain}}' on-value-changed='[[domainSearchValueChange]]'></oj-select-single>
             </oj-form-layout>
             <div id='domainSearchBtns'> 
               <div id='buttons-container' class='rtDiv'>

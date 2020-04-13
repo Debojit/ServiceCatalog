@@ -167,10 +167,31 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         self.identifierTypeInput(null);
         self.identifierValue(null);
         self.searchKeyword(null);
+        
       }
 
       //Integration catalogue search - source and/or target domain
+      //Domain search value change listener
+      self.domainSearchValueChange = function(event) {
+        var srcDomain = self.srcDomain();
+        var tgtDomain = self.tgtDomain();
+        if(srcDomain || !tgtDomain) {
+          document.getElementById('srcDomainLov').messagesCustom = [];
+          document.getElementById('tgtDomainLov').messagesCustom = [];
+        }
+      }
       self.domainSearch = function(event) {
+        //Validate inputs
+        var srcDomain = self.srcDomain();
+        var tgtDomain = self.tgtDomain();
+        if(!srcDomain && !tgtDomain) {
+          document.getElementById('srcDomainLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target domains cannot be empty.'}];
+          document.getElementById('tgtDomainLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target domains cannot be empty.'}];
+        } else {
+          document.getElementById('srcDomainLov').messagesCustom = [];
+          document.getElementById('tgtDomainLov').messagesCustom = [];
+        }
+        //Build search URL
         var domainSearchUrl = app.apiBaseUrl + 'integrations/';
         if(self.srcDomain() && !self.tgtDomain()) {
           domainSearchUrl = domainSearchUrl + 'search/domain/src/' + self.srcDomain();
@@ -206,6 +227,8 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.resetDomainSearch = function(event) {
         self.srcDomain(null);
         self.tgtDomain(null);
+        document.getElementById('srcDomainLov').messagesCustom = [];
+        document.getElementById('tgtDomainLov').messagesCustom = [];
       }
       
       //Integrations table selection listener
