@@ -4,35 +4,210 @@
  * The Universal Permissive License (UPL), Version 1.0
  * @ignore
  */
-define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
+define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview',
+        'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible',
+        'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext',
+        'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain',
+        'ojs/ojpopup', 'ojs/ojvalidationgroup', 'ojs/ojselectsingle'],
 function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
 
     function IntegrationsViewModel() {
       var self = this;
       
-      self.integrationsList = ko.observableArray();
-      self.servicesList = ko.observableArray();
-      self.servicesDialogDataSource = ko.observable();
-      self.selectedServiceId = ko.observable();
+      self.integrationsList = ko.observableArray(null);
+      self.servicesList = ko.observableArray(null);
+      self.integrationsDataSource = ko.observable(null);
+      self.servicesDialogDataSource = ko.observable(null);
+      self.selectedServiceId = ko.observable(null);
+
+      //Primary Search LOV and input param
+      self.identifierTypeInput = ko.observable(null);
+      self.identifierValue = ko.observable(null);
+      self.searchKeyword = ko.observable(null);
+      var identifierTypes = [
+        {value: '', label: ''}, 
+        {value: 'integrations', label: 'Integration ID'},
+        {value: 'services', label: 'Service ID'}
+      ];
+      self.identifierTypeLov = new ArrayDataProvider(identifierTypes, {idAttribute: 'value'});
+
+      //Doman Search Lovs and input param
+      self.domainList = ko.observableArray(null);
+      self.srcDomain = ko.observable(null);
+      self.tgtDomain = ko.observable(null);
+
+      //System search LOV and parameters
+      self.systemList = ko.observableArray(null);
+      self.srcSystem = ko.observable(null);
+      self.tgtSystem = ko.observable(null);
+
       //Get all integrations
-      $.ajax({
-        type: 'GET',
-        url: 'https://localhost:7102/enterprise-service-catalogue/resources/integrations',
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
-        },
-        dataType: 'json',
-        success: function(response) {
-          self.integrationsList.removeAll();
-          self.integrationsList(response);
-        },
-        failure: function(response) {
-          alert(JSON.stringify(response));
+      self.getAllIntegrations = function() {
+        if(self.integrationsList().length == 0) {
+          $.ajax({
+            type: 'GET',
+            url: app.apiBaseUrl + 'integrations',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              self.integrationsList.removeAll();
+              self.integrationsList(response);
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
         }
-      });
+      }
+      self.getAllIntegrations(); //Get all integrations on page load
+      self.integrationsDataSource(new PagingDataProviderView(new ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'})));
 
-      self.integrationsDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.integrationsList, {idAttribute: 'INTERFACE_ID'}));
+      //Populate lookup LOVs
+      self.getLookupLovs = function() {
+        $.ajax({
+          type: 'GET',
+          url: app.apiBaseUrl + 'lookups',
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            //Domain List
+            self.domainList.removeAll();
+            self.domainList().push({value: '', label: ''});
+            for(let [key, value] of Object.entries(response['domain'])) { 
+              self.domainList().push({value: key, label: value});
+            }
+            //TODO: System List
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
+          }
+        });
+      }
 
+      //Populate all LOVs on page load
+      self.getLookupLovs();
+      self.domainTypesLov = new ArrayDataProvider(self.domainList, {idAttribute: 'value'});
+
+      //Search form layout
+      // For small screens: 1 column and labels on top
+      // For medium screens: 2 columns and labels on top
+      // For large screens or bigger: 2 columns and labels inline
+      self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
+      self.isLargeOrUp = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.LG_UP));
+      self.maxCols = ko.computed(function () {
+        return self.isSmall() ? 1 : 2;
+      }, self);
+      self.labelEdge = ko.computed(function () {
+          return self.isLargeOrUp() ? 'start' : 'top';
+      }, self);
+      
+      
+      
+      //Integration catalogue search - primary
+      self.validatePrimarySearchForm = function() {
+        //TODO: Validate primary search
+      }
+      self.primarySearch = function(event) {
+        //Reset all other forms
+        self.resetDomainSearch();
+        //TODO: Reset systems based search
+
+        if(!self.identifierTypeInput() && !self.identifierValue() && !self.searchKeyword()) {
+          self.getAllIntegrations();
+        } else if(self.identifierTypeInput() === 'integrations') {
+          $.ajax({
+            type: 'GET',
+            url: app.apiBaseUrl + self.identifierTypeInput() + '/' + self.identifierValue(),
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              self.integrationsList.removeAll();
+              if(response) {
+                if(!Array.isArray(response)) {
+                  response = [response];
+                }
+                self.integrationsList(response);
+              }
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
+        } else {
+          $.ajax({
+            type: 'GET',
+            url: app.apiBaseUrl + self.identifierTypeInput() + '/' + self.identifierValue() + '/integrations',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              if(!Array.isArray(response)) {
+                response = [response];
+              }
+              self.integrationsList.removeAll();
+              if(response) {
+                self.integrationsList(response);
+              }
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
+        }
+      }
+      //Reset primary search form
+      self.resetPrimarySearch = function(event) {
+        self.identifierTypeInput(null);
+        self.identifierValue(null);
+        self.searchKeyword(null);
+      }
+
+      //Integration catalogue search - source and/or target domain
+      self.domainSearch = function(event) {
+        var domainSearchUrl = app.apiBaseUrl + 'integrations/';
+        if(self.srcDomain() && !self.tgtDomain()) {
+          domainSearchUrl = domainSearchUrl + 'search/domain/src/' + self.srcDomain();
+        }
+        if(!self.srcDomain() && self.tgtDomain()) {
+          domainSearchUrl = domainSearchUrl + 'search/domain/tgt/' + self.tgtDomain();
+        }
+        if(self.srcDomain() && self.tgtDomain()) {
+          domainSearchUrl = domainSearchUrl + 'search/domain/src/' + self.srcDomain() + '/tgt/' + self.tgtDomain();
+        }
+        $.ajax({
+          type: 'GET',
+          url: domainSearchUrl,
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            self.integrationsList.removeAll();
+            if(response) {
+              if(!Array.isArray(response)) {
+                response = [response];
+              }
+              self.integrationsList(response);
+            }
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
+          }
+        });
+      }
+      //Reset domain search form
+      self.resetDomainSearch = function(event) {
+        self.srcDomain(null);
+        self.tgtDomain(null);
+      }
+      
       //Integrations table selection listener
       self.integrationsTblSelctionListener = function(event) {
         var interfaceId = null;
@@ -69,7 +244,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       
       //Open service details view
       self.openServiceDetailsView = function(ojEvent, jqEvent) {
-        var url = 'https://localhost:7102/enterprise-service-catalogue/resources/services/' + jqEvent.currentTarget.text;
+        var url = app.apiBaseUrl + 'services/' + jqEvent.currentTarget.text;
         $.ajax({
           type: 'GET',
           url: url,

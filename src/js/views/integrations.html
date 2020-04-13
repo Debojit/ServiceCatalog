@@ -3,8 +3,76 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class='oj-hybrid-padding'>
+  <div id='searchForms' class='oj-panel oj-panel-alt2 oj-sm-margin-2x demo-mypanel'>
+    <oj-collapsible id='searchFomsCollapsibe' expanded='true'>
+      <h2 slot='header'>Search</h2>
+      <div class='oj-flex'>
+        <div class='clearBoth'>
+          <h4>Primary Search</h4>
+          <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
+            <oj-form-layout  id='primarySearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
+              <oj-label for='identifierTypeLov'>Identifier Type</oj-label>
+              <oj-select-single id='identifierTypeLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}'></oj-select-single>
+              <oj-label for='identifierValue'>Identifier Value</oj-label>
+              <oj-input-text id='identifierValue' value='{{identifierValue}}' clear-icon='conditional'></oj-input-text>
+              <oj-label for='keywordSearch'>Keyword</oj-label>
+              <oj-input-text id='keywordSearch' label-hint='Keyword' value='{{searchKeyword}}' clear-icon='conditional'></oj-input-text>
+            </oj-form-layout>
+            <div id='primarySearchBtns'> 
+              <div id='buttons-container' class='rtDiv'>
+                  <oj-button id='search' chroming='full' on-click='[[primarySearch]]'>
+                      <span slot='startIcon' class='oj-fwk-icon  oj-fwk-icon-magnifier'></span>
+                      Search
+                  </oj-button>
+                  <oj-button id='reset' chroming='full' on-click='[[resetPrimarySearch]]'>
+                      <span slot='startIcon' class='fa fa-refresh  fa-x'></span>
+                      Reset
+                  </oj-button>					   
+              </div>                               
+          </div>
+          </div>
+        </div>
+        <div class='clearBoth'>
+          <h4>Domain Search</h4>
+          <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
+            <oj-form-layout id='domainSearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
+              <oj-label for='srcDomainLov'>Source Domain</oj-label>
+              <oj-select-single id='srcDomainLov' data='[[domainTypesLov]]' value='{{srcDomain}}'></oj-select-single>
+              <oj-label for='tgtDomainLov'>Target Domain</oj-label>
+              <oj-select-single id='tgtDomainLov' data='[[domainTypesLov]]' value='{{tgtDomain}}'></oj-select-single>
+            </oj-form-layout>
+            <div id='domainSearchBtns'> 
+              <div id='buttons-container' class='rtDiv'>
+                  <oj-button id='search' chroming='full' on-click='[[domainSearch]]'>
+                      <span slot='startIcon' class='oj-fwk-icon  oj-fwk-icon-magnifier'></span>
+                      Search
+                  </oj-button>
+                  <oj-button id='reset' chroming='full' on-click='[[resetDomainSearch]]'>
+                      <span slot='startIcon' class='fa fa-refresh  fa-x'></span>
+                      Reset
+                  </oj-button>					   
+              </div>                               
+          </div>
+          </div>
+        </div>
+        <!-- <div class='clearBoth'>
+          <h4>System Search</h4>
+          <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
+            <oj-form-layout id='systemSearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
+              <oj-label for='srcSystemLov'>Source System</oj-label>
+              <oj-select-single id='srcSystemLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}'></oj-select-single>
+              <oj-label for='tgtSystemLov'>Target System</oj-label>
+              <oj-select-single id='tgtSystemLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}'></oj-select-single>
+            </oj-form-layout>
+          </div>
+        </div> -->
+      </div>
+    </oj-collapsible>
+  </div>
+  <br/>
+  
   <div id='pagedIntegrationsDiv'>
-    <h2>Integrations</h2>
+    <h2>Integration Catalogue</h2>
     <oj-table id='integrationsTable'
               aria-label='Integrations Table'
               data='[[integrationsDataSource]]'

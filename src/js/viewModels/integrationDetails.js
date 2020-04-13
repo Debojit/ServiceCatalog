@@ -17,7 +17,6 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         //Navigate back to integrations view
       self.backToPreviousView = function(event) {
         setTimeout(function() {
-          //var navHistory = oj.Router.rootInstance._navHistory;
           oj.Router.rootInstance.go(app.navHistory().pop());
         });
       }

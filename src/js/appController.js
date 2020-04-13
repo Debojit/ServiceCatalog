@@ -76,6 +76,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       self.selectedIntegration = ko.observable();
       self.selectedService = ko.observable();
       self.navHistory = ko.observableArray();
+      self.apiBaseUrl = 'https://localhost:7102/enterprise-service-catalogue/resources/';
       //END global variables
 
       // Footer
