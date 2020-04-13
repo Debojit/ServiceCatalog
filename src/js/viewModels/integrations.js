@@ -25,7 +25,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.identifierValue = ko.observable(null);
       self.searchKeyword = ko.observable(null);
       var identifierTypes = [
-        {value: '', label: ''}, 
+        {value: null, label: ''}, 
         {value: 'integrations', label: 'Integration ID'},
         {value: 'services', label: 'Service ID'}
       ];
@@ -87,9 +87,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
           }
         });
       }
-
-      //Populate all LOVs on page load
-      self.getLookupLovs();
+      self.getLookupLovs(); //Populate all LOVs on page load
       self.domainTypesLov = new ArrayDataProvider(self.domainList, {idAttribute: 'value'});
 
       //Search form layout
@@ -105,23 +103,45 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
           return self.isLargeOrUp() ? 'start' : 'top';
       }, self);
       
-      
-      
       //Integration catalogue search - primary
-      self.validatePrimarySearchForm = function() {
-        //TODO: Validate primary search
+      //Primary Identifier LOV Value Change Listener
+      self.primarySearchIdentifierTypeValueChange = function(event) {
+        if(event.detail.value) {
+          document.getElementById('identifierValue').disabled = false;
+          document.getElementById('keywordSearch').disabled = true;
+          document.getElementById('identifierTypeLov').messagesCustom = [];
+          document.getElementById('keywordSearch').messagesCustom = [];
+        } else {
+          document.getElementById('identifierValue').disabled = true;
+          self.identifierValue(null);
+          document.getElementById('keywordSearch').disabled = false;
+        }
       }
+      
       self.primarySearch = function(event) {
         //Reset all other forms
         self.resetDomainSearch();
         //TODO: Reset systems based search
 
-        if(!self.identifierTypeInput() && !self.identifierValue() && !self.searchKeyword()) {
-          self.getAllIntegrations();
-        } else if(self.identifierTypeInput() === 'integrations') {
+        //Validate inputs
+        if(!self.identifierTypeInput() && !self.searchKeyword()) {
+          document.getElementById('identifierTypeLov').messagesCustom = [{summary: 'Error', detail: 'Both identifier and keyword fields cannot be empty.'}];
+          document.getElementById('keywordSearch').messagesCustom = [{summary: 'Error', detail: 'Both identifier and keyword fields cannot be empty.'}];
+        } else if(self.identifierTypeInput() && !self.identifierValue()) {
+          document.getElementById('identifierValue').messagesCustom = [{summary: 'Error', detail: 'Enter an interface/service id.'}];
+        } else {//Inputs verified, prepare search api call
+          var primarySearchUrl = null;
+          if(self.identifierTypeInput() == 'integrations') {//Interface id based search
+            primarySearchUrl = app.apiBaseUrl + 'integrations/' + self.identifierValue();
+            
+          } else if(self.identifierTypeInput() == 'services') { //Keyword based search
+            primarySearchUrl = app.apiBaseUrl + 'services/' + self.identifierValue() + '/integrations';
+          } else {
+            primarySearchUrl = app.apiBaseUrl + 'integrations/search/keyword/' + self.searchKeyword();
+          }
           $.ajax({
             type: 'GET',
-            url: app.apiBaseUrl + self.identifierTypeInput() + '/' + self.identifierValue(),
+            url: primarySearchUrl,
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
             },
@@ -130,30 +150,10 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
               self.integrationsList.removeAll();
               if(response) {
                 if(!Array.isArray(response)) {
-                  response = [response];
+                  self.integrationsList([response]);
+                } else {
+                  self.integrationsList(response);
                 }
-                self.integrationsList(response);
-              }
-            },
-            failure: function(response) {
-              alert(JSON.stringify(response));
-            }
-          });
-        } else {
-          $.ajax({
-            type: 'GET',
-            url: app.apiBaseUrl + self.identifierTypeInput() + '/' + self.identifierValue() + '/integrations',
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
-            },
-            dataType: 'json',
-            success: function(response) {
-              if(!Array.isArray(response)) {
-                response = [response];
-              }
-              self.integrationsList.removeAll();
-              if(response) {
-                self.integrationsList(response);
               }
             },
             failure: function(response) {
@@ -167,7 +167,8 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         self.identifierTypeInput(null);
         self.identifierValue(null);
         self.searchKeyword(null);
-        
+        document.getElementById('identifierTypeLov').messagesCustom = [];
+        document.getElementById('keywordSearch').messagesCustom = [];
       }
 
       //Integration catalogue search - source and/or target domain
@@ -190,38 +191,38 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         } else {
           document.getElementById('srcDomainLov').messagesCustom = [];
           document.getElementById('tgtDomainLov').messagesCustom = [];
-        }
-        //Build search URL
-        var domainSearchUrl = app.apiBaseUrl + 'integrations/';
-        if(self.srcDomain() && !self.tgtDomain()) {
-          domainSearchUrl = domainSearchUrl + 'search/domain/src/' + self.srcDomain();
-        }
-        if(!self.srcDomain() && self.tgtDomain()) {
-          domainSearchUrl = domainSearchUrl + 'search/domain/tgt/' + self.tgtDomain();
-        }
-        if(self.srcDomain() && self.tgtDomain()) {
-          domainSearchUrl = domainSearchUrl + 'search/domain/src/' + self.srcDomain() + '/tgt/' + self.tgtDomain();
-        }
-        $.ajax({
-          type: 'GET',
-          url: domainSearchUrl,
-          beforeSend: function(xhr) {
-              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
-          },
-          dataType: 'json',
-          success: function(response) {
-            self.integrationsList.removeAll();
-            if(response) {
-              if(!Array.isArray(response)) {
-                response = [response];
-              }
-              self.integrationsList(response);
-            }
-          },
-          failure: function(response) {
-            alert(JSON.stringify(response));
+          //Build search URL
+          var domainSearchUrl = app.apiBaseUrl + 'integrations/';
+          if(self.srcDomain() && !self.tgtDomain()) {
+            domainSearchUrl = domainSearchUrl + 'search/domain/src/' + self.srcDomain();
           }
-        });
+          if(!self.srcDomain() && self.tgtDomain()) {
+            domainSearchUrl = domainSearchUrl + 'search/domain/tgt/' + self.tgtDomain();
+          }
+          if(self.srcDomain() && self.tgtDomain()) {
+            domainSearchUrl = domainSearchUrl + 'search/domain/src/' + self.srcDomain() + '/tgt/' + self.tgtDomain();
+          }
+          $.ajax({
+            type: 'GET',
+            url: domainSearchUrl,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              self.integrationsList.removeAll();
+              if(response) {
+                if(!Array.isArray(response)) {
+                  response = [response];
+                }
+                self.integrationsList(response);
+              }
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
+        }
       }
       //Reset domain search form
       self.resetDomainSearch = function(event) {
@@ -314,12 +315,11 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         // Implement if needed
       };
     }
-
     /*
      * Returns an instance of the ViewModel providing one instance of the ViewModel. If needed,
      * return a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.
-     */
+     */    
     return IntegrationsViewModel;
   }
 );

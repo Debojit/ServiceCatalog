@@ -12,9 +12,9 @@
           <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
             <oj-form-layout  id='primarySearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
               <oj-label for='identifierTypeLov'>Identifier Type</oj-label>
-              <oj-select-single id='identifierTypeLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}'></oj-select-single>
+              <oj-select-single id='identifierTypeLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}' on-value-changed=[[primarySearchIdentifierTypeValueChange]]></oj-select-single>
               <oj-label for='identifierValue'>Identifier Value</oj-label>
-              <oj-input-text id='identifierValue' value='{{identifierValue}}' clear-icon='conditional'></oj-input-text>
+              <oj-input-text id='identifierValue' value='{{identifierValue}}' clear-icon='conditional' disabled='true'></oj-input-text>
               <oj-label for='keywordSearch'>Keyword</oj-label>
               <oj-input-text id='keywordSearch' label-hint='Keyword' value='{{searchKeyword}}' clear-icon='conditional'></oj-input-text>
             </oj-form-layout>
@@ -72,7 +72,7 @@
   <br/>
   
   <div id='pagedIntegrationsDiv'>
-    <h2>Integration Catalogue</h2>
+    <h2>Integration Catalogue</h2><!--<a data-bind='click: getAllIntegrations' style='font-size : 15px'class='cursor' >(Show All)</a>-->
     <oj-table id='integrationsTable'
               aria-label='Integrations Table'
               data='[[integrationsDataSource]]'
