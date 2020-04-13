@@ -10,26 +10,29 @@
         <div class='clearBoth'>
           <h4>Primary Search</h4>
           <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
-            <oj-form-layout  id='primarySearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
+            <oj-form-layout id='primarySearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
               <oj-label for='identifierTypeLov'>Identifier Type</oj-label>
-              <oj-select-single id='identifierTypeLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}' on-value-changed=[[primarySearchIdentifierTypeValueChange]]></oj-select-single>
+              <oj-select-single id='identifierTypeLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}'
+                on-value-changed=[[primarySearchIdentifierTypeValueChange]]></oj-select-single>
               <oj-label for='identifierValue'>Identifier Value</oj-label>
-              <oj-input-text id='identifierValue' value='{{identifierValue}}' clear-icon='conditional' disabled='true'></oj-input-text>
+              <oj-input-text id='identifierValue' value='{{identifierValue}}' clear-icon='conditional' disabled='true'>
+              </oj-input-text>
               <oj-label for='keywordSearch'>Keyword</oj-label>
-              <oj-input-text id='keywordSearch' label-hint='Keyword' value='{{searchKeyword}}' clear-icon='conditional'></oj-input-text>
+              <oj-input-text id='keywordSearch' label-hint='Keyword' value='{{searchKeyword}}' clear-icon='conditional'>
+              </oj-input-text>
             </oj-form-layout>
-            <div id='primarySearchBtns'> 
+            <div id='primarySearchBtns'>
               <div id='buttons-container' class='rtDiv'>
-                  <oj-button id='search' chroming='full' on-click='[[primarySearch]]'>
-                      <span slot='startIcon' class='oj-fwk-icon  oj-fwk-icon-magnifier'></span>
-                      Search
-                  </oj-button>
-                  <oj-button id='reset' chroming='full' on-click='[[resetPrimarySearch]]'>
-                      <span slot='startIcon' class='fa fa-refresh  fa-x'></span>
-                      Reset
-                  </oj-button>					   
-              </div>                               
-          </div>
+                <oj-button id='search' chroming='full' on-click='[[primarySearch]]'>
+                  <span slot='startIcon' class='oj-fwk-icon  oj-fwk-icon-magnifier'></span>
+                  Search
+                </oj-button>
+                <oj-button id='reset' chroming='full' on-click='[[resetPrimarySearch]]'>
+                  <span slot='startIcon' class='fa fa-refresh  fa-x'></span>
+                  Reset
+                </oj-button>
+              </div>
+            </div>
           </div>
         </div>
         <div class='clearBoth'>
@@ -37,86 +40,94 @@
           <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
             <oj-form-layout id='domainSearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
               <oj-label for='srcDomainLov'>Source Domain</oj-label>
-              <oj-select-single id='srcDomainLov' data='[[domainTypesLov]]' value='{{srcDomain}}' on-value-changed='[[domainSearchValueChange]]'></oj-select-single>
+              <oj-select-single id='srcDomainLov' data='[[domainTypesLov]]' value='{{srcDomain}}'
+                on-value-changed='[[domainSearchValueChange]]'></oj-select-single>
               <oj-label for='tgtDomainLov'>Target Domain</oj-label>
-              <oj-select-single id='tgtDomainLov' data='[[domainTypesLov]]' value='{{tgtDomain}}' on-value-changed='[[domainSearchValueChange]]'></oj-select-single>
+              <oj-select-single id='tgtDomainLov' data='[[domainTypesLov]]' value='{{tgtDomain}}'
+                on-value-changed='[[domainSearchValueChange]]'></oj-select-single>
             </oj-form-layout>
-            <div id='domainSearchBtns'> 
+            <div id='domainSearchBtns'>
               <div id='buttons-container' class='rtDiv'>
-                  <oj-button id='search' chroming='full' on-click='[[domainSearch]]'>
-                      <span slot='startIcon' class='oj-fwk-icon  oj-fwk-icon-magnifier'></span>
-                      Search
-                  </oj-button>
-                  <oj-button id='reset' chroming='full' on-click='[[resetDomainSearch]]'>
-                      <span slot='startIcon' class='fa fa-refresh  fa-x'></span>
-                      Reset
-                  </oj-button>					   
-              </div>                               
-          </div>
+                <oj-button id='search' chroming='full' on-click='[[domainSearch]]'>
+                  <span slot='startIcon' class='oj-fwk-icon  oj-fwk-icon-magnifier'></span>
+                  Search
+                </oj-button>
+                <oj-button id='reset' chroming='full' on-click='[[resetDomainSearch]]'>
+                  <span slot='startIcon' class='fa fa-refresh  fa-x'></span>
+                  Reset
+                </oj-button>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- <div class='clearBoth'>
+        <div class='clearBoth'>
           <h4>System Search</h4>
           <div class='oj-panel oj-flex-item oj-sm-margin-2x' style='width:50%'>
             <oj-form-layout id='systemSearchForm' max-columns='[[maxCols]]' label-edge='[[labelEdge]]'>
               <oj-label for='srcSystemLov'>Source System</oj-label>
-              <oj-select-single id='srcSystemLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}'></oj-select-single>
+              <oj-select-single id='srcSystemLov' data='[[systemTypesLov]]' value='{{srcSystem}}'>
+              </oj-select-single>
               <oj-label for='tgtSystemLov'>Target System</oj-label>
-              <oj-select-single id='tgtSystemLov' data='[[identifierTypeLov]]' value='{{identifierTypeInput}}'></oj-select-single>
+              <oj-select-single id='tgtSystemLov' data='[[systemTypesLov]]' value='{{tgtSystem}}'>
+              </oj-select-single>
             </oj-form-layout>
+            <div id='systemSearchBtns' class='rtDiv'>
+              <oj-button id='search' chroming='full' on-click='[[systemSearch]]'>
+                <span slot='startIcon' class='oj-fwk-icon  oj-fwk-icon-magnifier'></span>
+                Search
+              </oj-button>
+              <oj-button id='reset' chroming='full' on-click='[[resetSystemSearch]]'>
+                <span slot='startIcon' class='fa fa-refresh  fa-x'></span>
+                Reset
+              </oj-button>
+            </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </oj-collapsible>
   </div>
-  <br/>
-  
+  <br />
+
   <div id='pagedIntegrationsDiv'>
-    <h2>Integration Catalogue</h2><!--<a data-bind='click: getAllIntegrations' style='font-size : 15px'class='cursor' >(Show All)</a>-->
-    <oj-table id='integrationsTable'
-              aria-label='Integrations Table'
-              data='[[integrationsDataSource]]'
-              selection-mode='{"row": "single"}'
-              on-selected-changed='[[integrationsTblSelctionListener]]'
-              columns='[{"headerText": "Serial No.", "field": "SNO", "sortable": "enabled"},
+    <h2>Integration Catalogue</h2>
+    <!--<a data-bind='click: getAllIntegrations' style='font-size : 15px'class='cursor' >(Show All)</a>-->
+    <oj-table id='integrationsTable' aria-label='Integrations Table' data='[[integrationsDataSource]]'
+      selection-mode='{"row": "single"}' on-selected-changed='[[integrationsTblSelctionListener]]' columns='[{"headerText": "Serial No.", "field": "SNO", "sortable": "enabled"},
                         {"headerText": "Interface ID", "field": "INTERFACE_ID", "template": "integrationDetailsCell", "sortable": "enabled"},
                         {"headerText": "Interface Name", "field": "INTERFACE_NAME", "template": "integrationTooltipCell", "sortable": "enabled"},
                         {"headerText": "Source Domain", "field": "SRC_DOMAIN", "sortable": "enabled"},
                         {"headerText": "Target Domain", "field": "TRGT_DOMAIN", "sortable": "enabled"},
                         {"headerText": "Source System", "field": "SRC_APP", "sortable": "enabled"},
                         {"headerText": "Target System", "field": "TRGT_APP", "sortable": "enabled"},
-                        {"headerText": "", "template": "svcDetailsCell", "sortable": "disabled"}]'
-              style='width:100%'>
-        <template slot='integrationDetailsCell' data-oj-as='cell'>
-          <a data-bind='click: openIntegrationDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
-        </template>
-        <template slot='svcDetailsCell'>
-          <oj-button id='serviceListBtn' on-oj-action='[[openServicesListDialog]]'>Service Details</oj-button>
-        </template>
-      <oj-paging-control data='[[integrationsDataSource]]' id='integrationTblPager' page-size='10' slot='bottom'/>
+                        {"headerText": "", "template": "svcDetailsCell", "sortable": "disabled"}]' style='width:100%'>
+      <template slot='integrationDetailsCell' data-oj-as='cell'>
+        <a data-bind='click: openIntegrationDetailsView' class='cursor'>
+          <oj-bind-text value='[[cell.data]]' /></a>
+      </template>
+      <template slot='svcDetailsCell'>
+        <oj-button id='serviceListBtn' on-oj-action='[[openServicesListDialog]]'>Service Details</oj-button>
+      </template>
+      <oj-paging-control data='[[integrationsDataSource]]' id='integrationTblPager' page-size='10' slot='bottom' />
     </oj-table>
   </div>
 
   <div id='servicesDialogDiv'>
     <oj-dialog dialog-title='Service List' id='servicesListDialog' style='display:none;width: 90vw; height: 30vh;'>
       <div slot='body'>
-        <oj-table id='servicesTable'
-                aria-label='Service List'
-                data='[[servicesDialogDataSource]]'
-                selection-mode='{"row": "single"}'
-                columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template" : "serviceDetailsCell"},
+        <oj-table id='servicesTable' aria-label='Service List' data='[[servicesDialogDataSource]]'
+          selection-mode='{"row": "single"}' columns='[{"headerText": "Service ID", "field": "SERVICE_ID", "template" : "serviceDetailsCell"},
                           {"headerText": "Service Name", "field": "SERVICE_NAME"},
                           {"headerText": "Service Version", "field": "SERVICE_VERSION"},
                           {"headerText": "Project", "field": "MODULE"},
-                          {"headerText": "Platform", "field": "PLATFORM"}]'
-                style='width:100%'>
+                          {"headerText": "Platform", "field": "PLATFORM"}]' style='width:100%'>
           <template slot='serviceDetailsCell' data-oj-as='cell'>
-            <a data-bind='click: openServiceDetailsView' class='cursor'><oj-bind-text value='[[cell.data]]'/></a>
+            <a data-bind='click: openServiceDetailsView' class='cursor'>
+              <oj-bind-text value='[[cell.data]]' /></a>
           </template>
         </oj-table>
       </div>
       <div slot='footer'>
-        <oj-button id='servicesListDialogCloseBtn'on-oj-action='[[closeServicesListDialog]]'>Close</oj-button>
+        <oj-button id='servicesListDialogCloseBtn' on-oj-action='[[closeServicesListDialog]]'>Close</oj-button>
       </div>
     </oj-dialog>
   </div>
