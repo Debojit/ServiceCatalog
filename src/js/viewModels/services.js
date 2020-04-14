@@ -18,6 +18,17 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.integrationsList = ko.observableArray();
       self.integrationsDialogDataSource = ko.observable();
       
+      //Primary Search LOV and input param
+      self.identifierTypeInput = ko.observable(null);
+      self.identifierValue = ko.observable(null);
+      self.searchKeyword = ko.observable(null);
+      var identifierTypes = [
+        {value: null, label: ''}, 
+        {value: 'integrations', label: 'Integration ID'},
+        {value: 'services', label: 'Service ID'}
+      ];
+      self.identifierTypeLov = new ArrayDataProvider(identifierTypes, {idAttribute: 'value'});
+
       //Doman Search Lovs and input param
       self.domainList = ko.observableArray(null);
       self.srcDomain = ko.observable(null);
@@ -94,7 +105,73 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
           return self.isLargeOrUp() ? 'start' : 'top';
       }, self);
 
+      //Integration catalogue search - primary
+      //Primary Identifier LOV Value Change Listener
+      self.primarySearchIdentifierTypeValueChange = function(event) {
+        if(event.detail.value) {
+          document.getElementById('identifierValue').disabled = false;
+          document.getElementById('keywordSearch').disabled = true;
+          document.getElementById('identifierTypeLov').messagesCustom = [];
+          document.getElementById('keywordSearch').messagesCustom = [];
+        } else {
+          document.getElementById('identifierValue').disabled = true;
+          self.identifierValue(null);
+          document.getElementById('keywordSearch').disabled = false;
+        }
+      }
+      
+      self.primarySearch = function(event) {
+        //Reset all other forms
+        self.resetDomainSearch();
+        self.resetSystemSearch();
 
+        //Validate inputs
+        if(!self.identifierTypeInput() && !self.searchKeyword()) {
+          document.getElementById('identifierTypeLov').messagesCustom = [{summary: 'Error', detail: 'Both identifier and keyword fields cannot be empty.'}];
+          document.getElementById('keywordSearch').messagesCustom = [{summary: 'Error', detail: 'Both identifier and keyword fields cannot be empty.'}];
+        } else if(self.identifierTypeInput() && !self.identifierValue()) {
+          document.getElementById('identifierValue').messagesCustom = [{summary: 'Error', detail: 'Enter an interface/service id.'}];
+        } else {//Inputs verified, prepare search api call
+          var primarySearchUrl = null;
+          if(self.identifierTypeInput() == 'integrations') {//Interface id based search
+            primarySearchUrl = app.apiBaseUrl + 'integrations/' + self.identifierValue() + '/services';
+            
+          } else if(self.identifierTypeInput() == 'services') { //Keyword based search
+            primarySearchUrl = app.apiBaseUrl + 'services/' + self.identifierValue();
+          } else {
+            primarySearchUrl = app.apiBaseUrl + 'integrations/search/keyword/' + self.searchKeyword();
+          }
+          $.ajax({
+            type: 'GET',
+            url: primarySearchUrl,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              self.integrationsList.removeAll();
+              if(response) {
+                if(!Array.isArray(response)) {
+                  response = [response];
+                } 
+                self.servicesList(response);
+              }
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
+        }
+      }
+      //Reset primary search form
+      self.resetPrimarySearch = function(event) {
+        self.identifierTypeInput(null);
+        self.identifierValue(null);
+        self.searchKeyword(null);
+        document.getElementById('identifierTypeLov').messagesCustom = [];
+        document.getElementById('keywordSearch').messagesCustom = [];
+      }
+    
       //Integration catalogue search - source and/or target domain
       //Domain search value change listener
       self.domainSearchValueChange = function(event) {
@@ -106,8 +183,8 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         }
       }
       self.domainSearch = function(event) {
-        // self.resetPrimarySearch();
-        // self.resetSystemSearch();
+        self.resetPrimarySearch();
+        self.resetSystemSearch();
         //Validate inputs
         var srcDomain = self.srcDomain();
         var tgtDomain = self.tgtDomain();
@@ -137,7 +214,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
             },
             dataType: 'json',
             success: function(response) {
-              self.integrationsList.removeAll();
+              self.servicesList.removeAll();
               if(response) {
                 if(!Array.isArray(response)) {
                   response = [response];
@@ -174,6 +251,71 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
             }
           });
         }
+      }
+
+      //Integration Catalogue search - source and/or target system
+      //System search value change listener
+      self.systemSearchValueChange = function(event) {
+        var srcSystem = self.srcSystem();
+        var tgtSystem = self.tgtSystem();
+        if(srcSystem || tgtSystem) {
+          document.getElementById('srcSystemLov').messagesCustom = [];
+          document.getElementById('tgtSystemLov').messagesCustom = [];
+        }
+      }
+
+      self.systemSearch = function(event) {
+        self.resetPrimarySearch();
+        self.resetDomainSearch();
+
+        //Validate inputs
+        var srcSystem = self.srcSystem();
+        var tgtSystem = self.tgtSystem();
+        if(!srcSystem && !tgtSystem) {
+          document.getElementById('srcSystemLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target systems cannot be empty.'}];
+          document.getElementById('tgtSystemLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target systems cannot be empty.'}];
+        } else {
+          document.getElementById('srcSystemLov').messagesCustom = [];
+          document.getElementById('tgtSystemLov').messagesCustom = [];
+          //Build search URL
+          var systemSearchUrl = app.apiBaseUrl + 'services/';
+          if(srcSystem && !tgtSystem) {
+            systemSearchUrl = systemSearchUrl + 'search/system/src/' + srcSystem;
+          }
+          if(!srcSystem && tgtSystem) {
+            systemSearchUrl = systemSearchUrl + 'search/system/tgt/' + tgtSystem;
+          }
+          if(srcSystem && tgtSystem) {
+            systemSearchUrl = systemSearchUrl + 'search/system/src/' + srcSystem + '/tgt/' + tgtSystem;
+          }
+          $.ajax({
+            type: 'GET',
+            url: systemSearchUrl,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              self.servicesList.removeAll();
+              if(response) {
+                if(!Array.isArray(response)) {
+                  response = [response];
+                }
+                self.servicesList(response);
+              }
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
+        }
+      }
+      //Reset system search form
+      self.resetSystemSearch = function(event) {
+        self.srcSystem(null);
+        self.tgtSystem(null);
+        document.getElementById('srcSystemLov').messagesCustom = [];
+        document.getElementById('tgtSystemLov').messagesCustom = [];
       }
 
       // Integrations List Dialog 

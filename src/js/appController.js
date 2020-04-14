@@ -53,9 +53,9 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       // Navigation setup
       var navData = [
       {name: 'Integrations', id: 'integrations',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
+       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-catalog-icon-24'},
       {name: 'Services', id: 'services',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'}
+       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-library-icon-24'}
       ];
       self.navDataProvider = new ArrayDataProvider(navData, {keyAttributes: 'id'});
       
