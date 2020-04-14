@@ -343,7 +343,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       
       //Open service details view
       self.openServiceDetailsView = function(ojEvent, jqEvent) {
-        var url = app.apiBaseUrl + 'services/' + jqEvent.currentTarget.text;
+        var url = app.apiBaseUrl + 'services/' + jqEvent.currentTarget.text.trim();
         $.ajax({
           type: 'GET',
           url: url,
