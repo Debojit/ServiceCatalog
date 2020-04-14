@@ -7,7 +7,7 @@
 define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
     function (oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
 
-        function IntegrationDetailsViewModel() {
+        function ServiceDetailsViewModel() {
             var self = this;
 
             self.errorCodePageSize = 10;
@@ -85,6 +85,6 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpag
          * return a constructor for the ViewModel so that the ViewModel is constructed
          * each time the view is displayed.
          */
-        return IntegrationDetailsViewModel;
+        return ServiceDetailsViewModel;
     }
 );

@@ -21,7 +21,7 @@
                     style='column-count: 4;'>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='jobName'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='jobName'>
                                 <strong>Service ID:</strong>
                             </oj-label>
                         </div>
@@ -32,7 +32,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='description'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='description'>
                                 <strong>Service Name:</strong>
                             </oj-label>
                         </div>
@@ -43,7 +43,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class="oj-label-inline" for='description'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='description'>
                                 <strong>Service Version:</strong>
                             </oj-label>
                         </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='jobName'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='jobName'>
                                 <strong>Service Description:</strong>
                             </oj-label>
                         </div>
@@ -65,7 +65,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='description'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='description'>
                                 <strong>Project:</strong>
                             </oj-label>
                         </div>
@@ -76,7 +76,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='jobName'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='jobName'>
                                 <strong>Platform:</strong>
                             </oj-label>
                         </div>
@@ -87,7 +87,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='description'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='description'>
                                 <strong>Response Pattern:</strong>
                             </oj-label>
                         </div>
@@ -98,7 +98,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='jobName'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='jobName'>
                                 <strong>Invocation Type:</strong>
                             </oj-label>
                         </div>
@@ -109,7 +109,7 @@
                     </div>
                     <div class='oj-flex'>
                         <div class='oj-flex-item'>
-                            <oj-label class='oj-label-inline' for='jobName'>
+                            <oj-label class='oj-label-inline' style='text-align: left;' for='jobName'>
                                 <strong>Requested By:</strong>
                             </oj-label>
                         </div>
@@ -173,8 +173,7 @@
                                                 {"headerText": "Summary", "field": "errorSummary"},
                                                 {"headerText": "File Logging", "field": "fileLogFlag"},
                                                 {"headerText": "Database Logging", "field": "dbLogFlag"},
-                                                {"headerText": "Email Alerts", "field": "emailFlag"},
-                                                {"headerText": "Log File Path", "field": "logFile"}]'>
+                                                {"headerText": "Email Alerts", "field": "emailFlag"}]'>
                             <oj-bind-if test='[[paginateErrorCodes]]'>
                                 <oj-paging-control data='[[errorCodesDataSource]]' id='integrationTblPager' page-size='[[errorCodePageSize]]' slot='bottom'/>
                             </oj-bind-if>
