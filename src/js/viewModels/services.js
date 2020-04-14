@@ -14,24 +14,209 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.integrationsList = ko.observableArray();
       self.integrationsDialogDataSource = ko.observable();
       
+      //Doman Search Lovs and input param
+      self.domainList = ko.observableArray(null);
+      self.srcDomain = ko.observable(null);
+      self.tgtDomain = ko.observable(null);
+
+      //System search LOV and parameters
+      self.systemList = ko.observableArray(null);
+      self.srcSystem = ko.observable(null);
+      self.tgtSystem = ko.observable(null);
+
       //Get all services
-      $.ajax({
-        type: 'GET',
-        url: app.apiBaseUrl + 'services',
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
-        },
-        dataType: 'json',
-        success: function(response) {
-          self.servicesList.removeAll();
-          self.servicesList(response);
-        },
-        failure: function(response) {
-          alert(JSON.stringify(response));
-        }
-      });
-      
+      self.getAllServices = function() {
+        $.ajax({
+          type: 'GET',
+          url: app.apiBaseUrl + 'services',
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            self.servicesList.removeAll();
+            self.servicesList(response);
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
+          }
+        });
+      }
+      self.getAllServices();
       self.servicesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.servicesList, {idAttribute: 'serviceId'}));
+
+      //Populate lookup LOVs
+      self.getLookupLovs = function() {
+        $.ajax({
+          type: 'GET',
+          url: app.apiBaseUrl + 'lookups',
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+          },
+          dataType: 'json',
+          success: function(response) {
+            //Domain List
+            self.domainList.removeAll();
+            self.domainList().push({value: null, label: ''});
+            for(let [key, value] of Object.entries(response['domain'])) { 
+              self.domainList().push({value: key, label: value});
+            }
+            //System List
+            self.systemList.removeAll();
+            self.systemList.push({value: null, label: ''});
+            for(let [key, value] of Object.entries(response['system'])) {
+              self.systemList.push({value: key, label: value});
+            }
+          },
+          failure: function(response) {
+            alert(JSON.stringify(response));
+          }
+        });
+      }
+      self.getLookupLovs(); //Populate all LOVs on page load
+      self.domainTypesLov = new ArrayDataProvider(self.domainList, {idAttribute: 'value'});
+      self.systemTypesLov = new ArrayDataProvider(self.systemList, {idAttribute: 'value'});
+      
+      //Search form layout
+      // For small screens: 1 column and labels on top
+      // For medium screens: 2 columns and labels on top
+      // For large screens or bigger: 2 columns and labels inline
+      self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY));
+      self.isLargeOrUp = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.LG_UP));
+      self.maxCols = ko.computed(function () {
+        return self.isSmall() ? 1 : 2;
+      }, self);
+      self.labelEdge = ko.computed(function () {
+          return self.isLargeOrUp() ? 'start' : 'top';
+      }, self);
+
+      //Services search - source and/or target domain
+      //Domain search value change listener
+      self.domainSearchValueChange = function(event) {
+        var srcDomain = self.srcDomain();
+        var tgtDomain = self.tgtDomain();
+        if(srcDomain || tgtDomain) {
+          document.getElementById('srcDomainLov').messagesCustom = [];
+          document.getElementById('tgtDomainLov').messagesCustom = [];
+        }
+      }
+      self.domainSearch = function(event) {
+        //self.resetPrimarySearch();
+        self.resetSystemSearch();
+        //Validate inputs
+        var srcDomain = self.srcDomain();
+        var tgtDomain = self.tgtDomain();
+        if(!srcDomain && !tgtDomain) {
+          document.getElementById('srcDomainLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target domains cannot be empty.'}];
+          document.getElementById('tgtDomainLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target domains cannot be empty.'}];
+        } else {
+          document.getElementById('srcDomainLov').messagesCustom = [];
+          document.getElementById('tgtDomainLov').messagesCustom = [];
+          //Build search URL
+          var domainSearchUrl = app.apiBaseUrl + 'integrations/';
+          if(srcDomain && !tgtDomain) {
+            domainSearchUrl = domainSearchUrl + 'search/domain/src/' + srcDomain;
+          }
+          if(!srcDomain && tgtDomain) {
+            domainSearchUrl = domainSearchUrl + 'search/domain/tgt/' + tgtDomain;
+          }
+          if(srcDomain && tgtDomain) {
+            domainSearchUrl = domainSearchUrl + 'search/domain/src/' + srcDomain + '/tgt/' + tgtDomain;
+          }
+          
+          $.ajax({
+            type: 'GET',
+            url: domainSearchUrl,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              self.servicesList.removeAll();
+              if(response) {
+                if(!Array.isArray(response)) {
+                  response = [response];
+                }
+                self.servicesList(response);
+              }
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
+        }
+      }
+      //Reset domain search form
+      self.resetDomainSearch = function(event) {
+        self.srcDomain(null);
+        self.tgtDomain(null);
+        document.getElementById('srcDomainLov').messagesCustom = [];
+        document.getElementById('tgtDomainLov').messagesCustom = [];
+      }
+
+      //Services search - source and/or target system
+      //System search value change listener
+      self.systemSearchValueChange = function(event) {
+        var srcSystem = self.srcSystem();
+        var tgtSystem = self.tgtSystem();
+        if(srcSystem || tgtSystem) {
+          document.getElementById('srcSystemLov').messagesCustom = [];
+          document.getElementById('tgtSystemLov').messagesCustom = [];
+        }
+      }
+      self.systemSearch = function(event) {
+        //self.resetPrimarySearch();
+        self.resetDomainSearch();
+
+        //Validate inputs
+        var srcSystem = self.srcSystem();
+        var tgtSystem = self.tgtSystem();
+        if(!srcSystem && !tgtSystem) {
+          document.getElementById('srcSystemLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target systems cannot be empty.'}];
+          document.getElementById('tgtSystemLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target systems cannot be empty.'}];
+        } else {
+          document.getElementById('srcSystemLov').messagesCustom = [];
+          document.getElementById('tgtSystemLov').messagesCustom = [];
+          //Build search URL
+          var systemSearchUrl = app.apiBaseUrl + 'integrations/';
+          if(srcSystem && !tgtSystem) {
+            systemSearchUrl = systemSearchUrl + 'search/system/src/' + srcSystem;
+          }
+          if(!srcSystem && tgtSystem) {
+            systemSearchUrl = systemSearchUrl + 'search/system/tgt/' + tgtSystem;
+          }
+          if(srcSystem && tgtSystem) {
+            systemSearchUrl = systemSearchUrl + 'search/system/src/' + srcSystem + '/tgt/' + tgtSystem;
+          }
+          $.ajax({
+            type: 'GET',
+            url: systemSearchUrl,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
+            },
+            dataType: 'json',
+            success: function(response) {
+              self.servicesList.removeAll();
+              if(response) {
+                if(!Array.isArray(response)) {
+                  response = [response];
+                }
+                self.servicesList(response);
+              }
+            },
+            failure: function(response) {
+              alert(JSON.stringify(response));
+            }
+          });
+        }
+      }
+      //Reset system search form
+      self.resetSystemSearch = function(event) {
+        self.srcSystem(null);
+        self.tgtSystem(null);
+        document.getElementById('srcSystemLov').messagesCustom = [];
+        document.getElementById('tgtSystemLov').messagesCustom = [];
+      }
 
       //Table selection listener
       self.servicesTblSelctionListener = function(event) {
