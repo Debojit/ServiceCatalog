@@ -33,7 +33,8 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
        // Router setup
        self.router = Router.rootInstance;
        self.router.configure({
-         'integrations': {label: 'Integrations', isDefault: true},
+        'login': {'label': 'Login', isDefault: true},
+         'integrations': {label: 'Integrations'},
          'integrationDetails': {label: 'Integration Details'},
          'services': {label: 'Services'},
          'serviceDetails': {label: 'Service Details'}
