@@ -4,7 +4,11 @@
  * The Universal Permissive License (UPL), Version 1.0
  * @ignore
  */
-define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext', 'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain', 'ojs/ojpopup', 'ojs/ojvalidationgroup'],
+define(['ojs/ojcore', 'knockout', 'ojs/ojbootstrap', 'appController', 'ojs/ojpagingdataproviderview',
+        'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojknockout', 'ojs/ojcollapsible',
+        'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtable', 'ojs/ojpagingcontrol', 'ojs/ojinputtext',
+        'ojs/ojcheckboxset', 'ojs/ojformlayout', 'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojtrain',
+        'ojs/ojpopup', 'ojs/ojvalidationgroup', 'ojs/ojselectsingle'],
 function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, KnockoutTemplateUtils) {
 
     function ServicesViewModel() {
@@ -44,7 +48,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       }
       self.getAllServices();
       self.servicesDataSource = new PagingDataProviderView(new oj.ArrayDataProvider(self.servicesList, {idAttribute: 'serviceId'}));
-
+      
       //Populate lookup LOVs
       self.getLookupLovs = function() {
         $.ajax({
@@ -76,7 +80,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
       self.getLookupLovs(); //Populate all LOVs on page load
       self.domainTypesLov = new ArrayDataProvider(self.domainList, {idAttribute: 'value'});
       self.systemTypesLov = new ArrayDataProvider(self.systemList, {idAttribute: 'value'});
-      
+
       //Search form layout
       // For small screens: 1 column and labels on top
       // For medium screens: 2 columns and labels on top
@@ -90,7 +94,8 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
           return self.isLargeOrUp() ? 'start' : 'top';
       }, self);
 
-      //Services search - source and/or target domain
+
+      //Integration catalogue search - source and/or target domain
       //Domain search value change listener
       self.domainSearchValueChange = function(event) {
         var srcDomain = self.srcDomain();
@@ -101,8 +106,8 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         }
       }
       self.domainSearch = function(event) {
-        //self.resetPrimarySearch();
-        self.resetSystemSearch();
+        // self.resetPrimarySearch();
+        // self.resetSystemSearch();
         //Validate inputs
         var srcDomain = self.srcDomain();
         var tgtDomain = self.tgtDomain();
@@ -113,7 +118,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
           document.getElementById('srcDomainLov').messagesCustom = [];
           document.getElementById('tgtDomainLov').messagesCustom = [];
           //Build search URL
-          var domainSearchUrl = app.apiBaseUrl + 'integrations/';
+          var domainSearchUrl = app.apiBaseUrl + 'services/';
           if(srcDomain && !tgtDomain) {
             domainSearchUrl = domainSearchUrl + 'search/domain/src/' + srcDomain;
           }
@@ -132,7 +137,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
             },
             dataType: 'json',
             success: function(response) {
-              self.servicesList.removeAll();
+              self.integrationsList.removeAll();
               if(response) {
                 if(!Array.isArray(response)) {
                   response = [response];
@@ -153,71 +158,7 @@ function(oj, ko, Bootstrap, app, PagingDataProviderView, ArrayDataProvider, Knoc
         document.getElementById('srcDomainLov').messagesCustom = [];
         document.getElementById('tgtDomainLov').messagesCustom = [];
       }
-
-      //Services search - source and/or target system
-      //System search value change listener
-      self.systemSearchValueChange = function(event) {
-        var srcSystem = self.srcSystem();
-        var tgtSystem = self.tgtSystem();
-        if(srcSystem || tgtSystem) {
-          document.getElementById('srcSystemLov').messagesCustom = [];
-          document.getElementById('tgtSystemLov').messagesCustom = [];
-        }
-      }
-      self.systemSearch = function(event) {
-        //self.resetPrimarySearch();
-        self.resetDomainSearch();
-
-        //Validate inputs
-        var srcSystem = self.srcSystem();
-        var tgtSystem = self.tgtSystem();
-        if(!srcSystem && !tgtSystem) {
-          document.getElementById('srcSystemLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target systems cannot be empty.'}];
-          document.getElementById('tgtSystemLov').messagesCustom = [{summary: 'Error', detail: 'Both source and target systems cannot be empty.'}];
-        } else {
-          document.getElementById('srcSystemLov').messagesCustom = [];
-          document.getElementById('tgtSystemLov').messagesCustom = [];
-          //Build search URL
-          var systemSearchUrl = app.apiBaseUrl + 'integrations/';
-          if(srcSystem && !tgtSystem) {
-            systemSearchUrl = systemSearchUrl + 'search/system/src/' + srcSystem;
-          }
-          if(!srcSystem && tgtSystem) {
-            systemSearchUrl = systemSearchUrl + 'search/system/tgt/' + tgtSystem;
-          }
-          if(srcSystem && tgtSystem) {
-            systemSearchUrl = systemSearchUrl + 'search/system/src/' + srcSystem + '/tgt/' + tgtSystem;
-          }
-          $.ajax({
-            type: 'GET',
-            url: systemSearchUrl,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader('Authorization', 'Basic d2VibG9naWM6d2VsY29tZTE=');
-            },
-            dataType: 'json',
-            success: function(response) {
-              self.servicesList.removeAll();
-              if(response) {
-                if(!Array.isArray(response)) {
-                  response = [response];
-                }
-                self.servicesList(response);
-              }
-            },
-            failure: function(response) {
-              alert(JSON.stringify(response));
-            }
-          });
-        }
-      }
-      //Reset system search form
-      self.resetSystemSearch = function(event) {
-        self.srcSystem(null);
-        self.tgtSystem(null);
-        document.getElementById('srcSystemLov').messagesCustom = [];
-        document.getElementById('tgtSystemLov').messagesCustom = [];
-      }
-
+      
       //Table selection listener
       self.servicesTblSelctionListener = function(event) {
         var serviceId = null;
